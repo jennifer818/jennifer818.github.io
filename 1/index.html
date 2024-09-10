@@ -1,0 +1,582 @@
+<!DOCTYPE HTML>
+<!--
+	Paradigm Shift by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CS180 Project 1: Colorizing the Prokudin-Gorskii Photo Collection</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section class="intro">
+						<header>
+							<h1>Colorizing the Prokudin-Gorskii Photo Collection</h1>
+							<p>CS180 Project 1  <a href="https://jennifer818.github.io">HOME</a> / <a href="https://html5up.net">template</a></p>
+							<ul class="actions">
+								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
+							</ul>
+						</header>
+						<div class="content">
+							<span class="image fill" data-position="center"><img src="media/out_pyramid_emir.jpg" alt="" /></span>
+						</div>
+					</section>
+
+				<!-- Section -->
+					<section id="first">
+						<header>
+							<h2>Overview</h2>
+						</header>
+						<div class="content">
+							<p><strong>Sergei Mikhailovich Prokudin-Gorskii (1863-1944) </strong> thought of a way to capture pictures in color, even though cameras that could take colored photos have not been invented yet!
+							His idea was simple: take three identical photos of a subject, using a red filter for the first, a green filter for the second, and a blue filter for the third. That way, a special project could project these 
+							images using red, green, and blue light, and then align them to produce a colored image. For this project, I will do this digitally by aligning the three images using numpy and then colorizing and stacking them. </p>
+							<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
+						</div>
+					</section>
+
+				<!-- Section -->
+					<!-- <section>
+						<header>
+							<h2>Feugiat consequat tempus ultrices</h2>
+						</header>
+						<div class="content">
+							<p><strong>Etiam tristique libero</strong> eu nibh porttitor amet fermentum. Nullam venenatis erat id vehicula ultrices sed ultricies condimentum.</p>
+							<ul class="feature-icons">
+								<li class="icon solid fa-laptop">Consequat tempus</li>
+								<li class="icon solid fa-bolt">Etiam adipiscing</li>
+								<li class="icon solid fa-signal">Libero nullam</li>
+								<li class="icon solid fa-cog">Blandit condimentum</li>
+								<li class="icon solid fa-map-marker-alt">Lorem ipsum dolor</li>
+								<li class="icon solid fa-code">Nibh amet venenatis</li>
+							</ul>
+							<p>Vehicula ultrices sed ultricies condimentum. Magna sed etiam consequat, et lorem adipiscing sed nulla. Volutpat nisl et tempus et dolor libero, feugiat magna tempus, sed et lorem adipiscing.</p>
+						</div>
+					</section> -->
+
+				<!-- Section -->
+					<section>
+						<header>
+							<h2>Image Alignment</h2>
+						</header>
+						<div class="content">
+							<p>Most of the work for colorizing these images comes from finding the best algorithm to align the green and red images with the blue image. </p>
+
+							<!-- Section -->
+								<section>
+									<header>
+										<h3>Original Images</h3>
+										<p>Here are some examples of the original images taken by Prokudin-Gorskii using the RGB filters and black and white cameras.</p>
+										 
+
+									</header>
+									<div class="content">
+										<div class="gallery">
+											<a href="media/cathedral.jpg" class="portrait"><img src="media/cathedral.jpg" alt="cathedral_original" /></a>
+											<a href="media/monastery.jpg" class="portrait"><img src="media/monastery.jpg" alt="monastery_original" /></a>
+											<a href="media/tobolsk.jpg" class="portrait"><img src="media/tobolsk.jpg" alt="tobolsk_original" /></a>
+										</div>
+									</div>
+								</section>
+
+
+							<!-- Section -->
+								<section>
+									<header>
+										<h3>Naive Alignment Algorithm</h3>
+										<p>
+											The most basic way to align the three images is to use <code>np.roll</code> to shift the green and red images across a certain range 
+										and then return the shifts that is the smallest Euclidean distance away from the blue image. However, this method is very
+										 slow and only finishes in a timely manner on low res .jpg images.
+										 
+										</p>
+										 
+
+									</header>
+									<div class="content">
+										<div class="gallery">
+											<a href="media/out_naive_cathedral.jpg" class = landscape><img src="media/out_naive_cathedral.jpg" alt="cathedral" /></a>
+											<a href="media/out_naive_monastery.jpg" class="landscape"><img src="media/out_naive_monastery.jpg" alt="monastery" /></a>
+											<a href="media/out_naive_tobolsk.jpg" class="landscape"><img src="media/out_naive_tobolsk.jpg" alt="tobolsk" /></a>
+										</div>
+									</div>
+								</section>
+
+								<br>
+								<p>
+									Since these low res images were all around 390x340 pixels, I found that searching +-15 pixels in the y and x directions 
+									were sufficient for aligning them fairly well. 
+									<br>
+									<br>
+
+									The alignments (in pixels) for these images are: 
+									<br>
+									<strong>Cathedral</strong>
+									<br>
+									green image: 5 down 2 right
+									<br>
+									red image: 12 down 3 right
+									<br>
+									<strong>Monastery</strong>
+									<br>
+									green image: 3 up 2 right
+									<br>
+									red image: 3 up 2 right
+									<br>
+									<strong>Tobolsk</strong>
+									<br>
+									green image: 3 down 3 right
+									<br>
+									red image: 6 down 3 right
+									<br>
+								</p>
+								
+
+							<!-- Section -->
+								<section>
+									<header>
+										<h3>Pyramid Alignment Algorithm</h3>
+										<p>A method to speed up alignment is to use image pyramiding. By using recursion and scaling down the image by half at each recursion level, 
+											we can search for the correct alignment on a much smaller range of values, even if the original image have thousands of pixels.
+											<br>
+											At level i, the image is scaled down to 1/(2^i) of its original size. We can then find the best alignment on the smaller image at the ith level, 
+											add this alignment to the running total, shift the (i-1)st image by 2x this running total (since this image is 2x as big), search 
+											for the best alignment on the (i-1)st image, and so on until we find the best alignment for the original image. 
+											
+										</p>
+									</header>
+									<div class="content">
+										<div class="gallery">
+											<a href="media/out_pyramid_self_portrait.jpg" class="landscape"><img src="media/out_pyramid_self_portrait.jpg" alt="self_portrait" /></a>
+											<a href="media/out_pyramid_church.jpg" class="landscape"><img src="media/out_pyramid_church.jpg" alt="church" /></a>
+											<a href="media/out_pyramid_icon.jpg" class="landscape"><img src="media/out_pyramid_icon.jpg" alt="icon" /></a>
+											<a href="media/out_pyramid_lady.jpg" class="landscape"><img src="media/out_pyramid_lady.jpg" alt="lady" /></a>
+											<a href="media/out_pyramid_emir_original.jpg" class="landscape"><img src="media/out_pyramid_emir_original.jpg" alt="emir" /></a>
+
+										</div>
+									</div>
+								</section>
+
+								<br>
+								<p>
+									Since these high res images are all around 3700x3200 pixels, I found that having a recursion depth of 9, with a search range of +-5
+									pixels in the y and x directions at each level, worked well for aligning most of these images.
+									<br>
+									<br>
+
+									The alignments (in pixels) for these images are: 
+									<br>
+									<strong>Self Portrait</strong>
+									<br>
+									green image: 2522 up 29 right
+									<br>
+									red image: 2424 up 37 right
+									<br>
+									<strong>Church</strong>
+									<br>
+									green image: 2536 up 4 right
+									<br>
+									red image: 2503 up 4 left
+									<br>
+									<strong>Icon</strong>
+									<br>
+									green image: 2554 up 17 right
+									<br>
+									red image: 2506 up 23 right
+									<br>
+									<strong>Lady</strong>
+									<br>
+									green image: 2518 up 9 right
+									<br>
+									red image: 2457 up 11 right
+									<br>
+									<strong>Emir</strong>
+									<br>
+									green image: 2519 up 24 right
+									<br>
+									red image: 2542 up 829 left
+									<br>
+									<br>
+									Note: Most of these images have a very high shift in the y direction. However, because <code>np.roll</code> wraps around, this is the same as shifting these images down for less pixels.
+								</p>
+
+							<!-- Section -->
+								<section>
+									<header>
+										<!-- <h3>Lorem gravida</h3> -->
+										<p> All of the images seem well-aligned using the pyramid algorithm, except for emir.tif (the last image). This
+											is likely because, due to the dark colors in the photo, shifting the red image far to the left brought the image 
+											much closer to the blue image in terms of Euclidean distance. To fix this using brute force, I limited the search range 
+											in the x direction to be 1 pixel to the right at each level, allowing the emir photo to be slightly better aligned (though not perfectly so).
+										</p>
+									</header>
+									<div class="content">
+										<div class="gallery">
+											<a href="media/out_pyramid_emir.jpg" class="landscape"><img src="media/out_pyramid_emir.jpg" alt="emir_brute_force" /></a>
+										</div>
+									</div>
+								</section>
+
+						</div>
+					</section>
+
+				<!-- Section -->
+					<!-- <section>
+						<header>
+							<h2>Duis sed adpiscing veroeros amet</h2>
+						</header>
+						<div class="content">
+							<p><strong>Proin tempus feugiat</strong> sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore.</p>
+							<ul class="actions">
+								<li><a href="#" class="button primary large">Get Started</a></li>
+								<li><a href="#" class="button large">Learn More</a></li>
+							</ul>
+						</div>
+					</section> -->
+
+				<!-- Elements -->
+				<!--
+					<section>
+						<header>
+							<h2>Elements</h2>
+						</header>
+						<div class="content">
+
+							<section>
+								<header>
+									<h3>Text</h3>
+								</header>
+								<div class="content">
+									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+									<hr />
+									<h2>Heading Level 2</h2>
+									<h3>Heading Level 3</h3>
+									<h4>Heading Level 4</h4>
+									<h5>Heading Level 5</h5>
+									<hr />
+									<h5>Blockquote</h5>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+									<h5>Preformatted</h5>
+									<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+  print 'Iteration ' + i;
+  deck.shuffle();
+  i++;
+}
+
+print 'Sorted in ' + i + ' iterations.';</code></pre>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Lists</h3>
+								</header>
+								<div class="content">
+
+									<h4>Unordered</h4>
+									<ul>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
+
+									<h4>Alternate</h4>
+									<ul class="alt">
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
+
+									<h4>Ordered</h4>
+									<ol>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis viverra.</li>
+										<li>Felis enim feugiat.</li>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis lorem.</li>
+										<li>Felis enim et feugiat.</li>
+									</ol>
+									<h4>Icons</h4>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+									</ul>
+
+									<h4>Actions</h4>
+									<ul class="actions">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Table</h3>
+								</header>
+								<div class="content">
+									<h4>Default</h4>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+
+									<h4>Alternate</h4>
+									<div class="table-wrapper">
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Buttons</h3>
+								</header>
+								<div class="content">
+									<ul class="actions">
+										<li><a href="#" class="button primary">Primary</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button large">Large</a></li>
+										<li><a href="#" class="button">Default</a></li>
+										<li><a href="#" class="button small">Small</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
+									</ul>
+									<ul class="actions">
+										<li><span class="button primary disabled">Disabled</span></li>
+										<li><span class="button disabled">Disabled</span></li>
+									</ul>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Form</h3>
+								</header>
+								<div class="content">
+									<form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="demo-name">Name</label>
+												<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+											</div>
+											<div class="field half">
+												<label for="demo-email">Email</label>
+												<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
+											</div>
+											<div class="field">
+												<label for="demo-category">Category</label>
+												<select name="demo-category" id="demo-category">
+													<option value="">-</option>
+													<option value="1">Manufacturing</option>
+													<option value="1">Shipping</option>
+													<option value="1">Administration</option>
+													<option value="1">Human Resources</option>
+												</select>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+												<label for="demo-priority-low">Low</label>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-high" name="demo-priority">
+												<label for="demo-priority-high">High</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-copy" name="demo-copy">
+												<label for="demo-copy">Email me a copy</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-human" name="demo-human" checked>
+												<label for="demo-human">Not a robot</label>
+											</div>
+											<div class="field">
+												<label for="demo-message">Message</label>
+												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><input type="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Reset" /></li>
+										</ul>
+									</form>
+								</div>
+							</section>
+
+						</div>
+					</section>
+				-->
+
+				<!-- Section -->
+					<!-- <section>
+						<header>
+							<h2>Get in touch</h2>
+						</header>
+						<div class="content">
+							<p><strong>Auctor commodo</strong> interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis.</p>
+							<form>
+								<div class="fields">
+									<div class="field half">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message" rows="7"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" class="button primary" /></li>
+								</ul>
+							</form>
+						</div>
+						<footer>
+							<ul class="items">
+								<li>
+									<h3>Email</h3>
+									<a href="#">information@untitled.ext</a>
+								</li>
+								<li>
+									<h3>Phone</h3>
+									<a href="#">(000) 000-0000</a>
+								</li>
+								<li>
+									<h3>Address</h3>
+									<span>1234 Somewhere Road, Nashville, TN 00000</span>
+								</li>
+								<li>
+									<h3>Elsewhere</h3>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+										<li><a href="#" class="icon brands fa-codepen"><span class="label">Codepen</span></a></li>
+									</ul>
+								</li>
+							</ul>
+						</footer>
+					</section> -->
+
+				<!-- Copyright -->
+					<div class="copyright">&copy; Untitled. All rights reserved. Design: <a href="https://html5up.net">HTML5 UP</a>.</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
