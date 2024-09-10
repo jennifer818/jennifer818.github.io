@@ -23,6 +23,7 @@
 						<header>
 							<h1>Colorizing the Prokudin-Gorskii Photo Collection</h1>
 							<p>CS180 Project 1  <a href="https://jennifer818.github.io">HOME</a> / <a href="https://html5up.net">template</a></p>
+							<p>Note: this webpage does not print well. </p>
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
@@ -76,7 +77,10 @@
 								<section>
 									<header>
 										<h3>Original Images</h3>
-										<p>Here are some examples of the original images taken by Prokudin-Gorskii using the RGB filters and black and white cameras.</p>
+										<p>Here are some examples of the original images taken by Prokudin-Gorskii using the RGB filters and black and white cameras. Before applying the 
+											alignment algorithms, I first split these images into thirds (in order to get to red, green, and blue images) and then cropped 10% off each edge
+											to get rid of the black border. Click on the images to expand them. 
+										</p>
 										 
 
 									</header>
@@ -226,6 +230,20 @@
 										</div>
 									</div>
 								</section>
+
+							<!-- Section -->
+							<section>
+								<header>
+									<!-- <h3>Lorem gravida</h3> -->
+									<p> Another way to fix the emir photo is to use the sobel edge detection algorithm on the images and then run the pyramid alignment algorithm on the edge-detected photos instead of RGB.
+									</p>
+								</header>
+								<div class="content">
+									<div class="gallery">
+										<a href="media/out_edge_emir.jpg" class="landscape"><img src="media/out_edge_emir.jpg" alt="emir_brute_force" /></a>
+									</div>
+								</div>
+							</section>
 
 						</div>
 					</section>
