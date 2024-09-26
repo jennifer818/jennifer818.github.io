@@ -6,12 +6,12 @@
 -->
 <html>
 	<head>
-		<title>Project 2 Fun with Filters and Frequencies</title>
+		<title>Project 2 - Fun with Filters and Frequencies</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
-	<body class="homepage is-preload">
+	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -19,40 +19,13 @@
 					<div class="container">
 
 						<!-- Logo -->
-							<h1 id="logo"><a href="index.html">Filters and Frequencies</a></h1>
-							<p>CS180 Project 2</p>
-
-						<!-- Nav -->
-							<!-- <nav id="nav">
-								<ul>
-									<li><a class="icon solid fa-home" href="index.html"><span>Introduction</span></a></li>
-									<li>
-										<a href="#" class="icon fa-chart-bar"><span>Dropdown</span></a>
-										<ul>
-											<li><a href="#">Lorem ipsum dolor</a></li>
-											<li><a href="#">Magna phasellus</a></li>
-											<li><a href="#">Etiam dolore nisl</a></li>
-											<li>
-												<a href="#">Phasellus consequat</a>
-												<ul>
-													<li><a href="#">Magna phasellus</a></li>
-													<li><a href="#">Etiam dolore nisl</a></li>
-													<li><a href="#">Phasellus consequat</a></li>
-												</ul>
-											</li>
-											<li><a href="#">Veroeros feugiat</a></li>
-										</ul>
-									</li>
-									<li><a class="icon solid fa-cog" href="left-sidebar.html"><span>Left Sidebar</span></a></li>
-									<li><a class="icon solid fa-retweet" href="right-sidebar.html"><span>Right Sidebar</span></a></li>
-									<li><a class="icon solid fa-sitemap" href="no-sidebar.html"><span>No Sidebar</span></a></li>
-								</ul>
-							</nav> -->
+						<h1 id="logo"><a href="index.html">Filters and Frequencies</a></h1>
+						<p>CS180 Project 2</p>
 
 					</div>
 				</section>
 
-			<!-- Features -->
+				<!-- Features -->
 				<section id="features">
 					<div class="container">
 						<header>
@@ -101,168 +74,667 @@
 					</div>
 				</section>
 
-			<!-- Banner -->
-				<section id="banner">
+				<!-- Banner -->
+				<!-- <section id="banner">
 					<div class="container">
 						<p>Part 1: <strong>Fun with Filters!</strong>.<br /></p>
-					</div>
-				</section>
+					</div>	
+				</section> -->
 
 			<!-- Main -->
 				<section id="main">
 					<div class="container">
-						<div class="row">
+						<div id="content">
 
-							<!-- Content -->
-								<div id="content" class="col-8 col-12-medium">
+							<!-- Post -->
+								<article class="box post">
+									<header>
+										<h2>Part 1: Fun with Filters!</h2>
+									</header>
+									<h3>1.1: Finite Difference Operator</h3>
+									<p> We can get the edges of an image by using convolving an image with the finite difference
+										operators Dx = <code>np.array([[1, -1]])</code> and Dy = <code>np.array([[1], [-1]])</code>.
+										By convolving the image with Dx, we see the vertical edges of the image, and by convolving the 
+										image with Dy, we see the horizontal edges of the images. To see the full edges of the image, we 
+										can calculate the gradient magnitude of the image: <code>np.sqrt(x_gradient ** 2 + y_gradient ** 2)</code>.
+									</p>
+									<span class="image featured"><img src="media/cameraman_gradients.png" alt="" /></span>
 
-									<!-- Post -->
-										<article class="box post">
-											<header>
-												<h2><a href="#">I don’t want to say <strong>it’s the aliens</strong> ...<br />
-												but it’s the aliens.</a></h2>
-											</header>
-											<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-											<h3>I mean isn't it possible?</h3>
-											<p>Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit
-											ligula vel quam viverra sit amet mollis tortor congue. Sed quis mauris
-											sit amet magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada
-											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
-											magna tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros
-											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
-											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
-											mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique.
-											Curabitur leo nibh, rutrum eu malesuada in tristique.</p>
-											<ul class="actions">
-												<li><a href="#" class="button icon solid fa-file">Continue Reading</a></li>
-											</ul>
-										</article>
+									<p> In order to see the edges better, I binarized the image by setting all pixels > a certain threshold
+										to white and the rest of the pixels to black.
+									</p>
+									<span class="image featured"><img src="media/binarized_thresholds.png" alt="" /></span>
 
-									<!-- Post -->
-										<article class="box post">
-											<header>
-												<h2><a href="#">By the way, many thanks to <strong>regularjane</strong>
-												for these awesome demo photos</a></h2>
-											</header>
-											<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-											<h3>You should probably check out her work</h3>
-											<p>Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit
-											ligula vel quam viverra sit amet mollis tortor congue. Sed quis mauris
-											sit amet magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada
-											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
-											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
-											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
-											magna tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros
-											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
-											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
-											mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique.
-											Curabitur leo nibh, rutrum malesuada.</p>
-											<p>Erat lorem ipsum veroeros consequat magna tempus lorem ipsum consequat
-											Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit ligula
-											vel quam viverra sit amet mollis tortor congue. Sed quis mauris sit amet
-											magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada in,
-											tristique at erat. Curabitur leo nibh, rutrum eu malesuada in, tristique
-											at erat lorem ipsum dolor sit amet lorem ipsum sed consequat magna
-											tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros consequat
-											magna tempus.</p>
-											<ul class="actions">
-												<li><a href="#" class="button icon solid fa-file">Continue Reading</a></li>
-											</ul>
-										</article>
+									<p> Looking at the different thresholds, I think .25 was the best threshold, as you can see most of the edges
+										clearly while still getting rid of most of the other details: </p>
+									<span class="image featured"><img src="media/binarized_cameraman.jpg" alt="" /></span>
 
-								</div>
+									<h3>1.2: Finite Difference Operator</h3>
+									<p> The edge image above, however, is noisy. The edges look jagged rather than smooth and there seems to be some gaps in between the same edge. 
+										To fix this, we can blur the image first by convolving it with a 2D gaussian. I used a kernel size of 6 and a sigma of 1. After that, I 
+										found the vertical and horizontal edges and the gradient magnitude of this smoothed image by using the same method as 1.1. 
+									</p>
+									<span class="image featured"><img src="media/blur2d_cameraman_gradients.png" alt="" /></span>
+									<p> Rather than smoothing the image first, we can get the same result by taking the derivatives of the 2D gaussian. We find 
+										dx of the gaussian by convolving it with the finite operator Dx and we find dy of the gaussian by convolving it with Dy.
+										We then find the smoothed vertical edges by convolving the image with dx of the gaussian and the smoothed horizontal edges by convolving the image with dy of the gaussian. To find
+										the gradient magnitude, we just apply the same equation as part 1.1, but just using the smoothed gradients. Because I kept
+										the kernel size as 6 and sigma as 1, the edge image produced this way looks very similar as the one before.
+									</p>
+									<span class="image featured"><img src="media/dx_dy_gaussian.png" alt="" /></span>
+									<span class="image featured"><img src="media/blur_deriv_cameraman_gradients.png" alt="" /></span>
 
-							<!-- Sidebar -->
-								<div id="sidebar" class="col-4 col-12-medium">
+									<p> After binarizing (with a threshold of .1): </p>
 
-										<section>
-											<ul class="divided">
-												<li>
+									<div class="row aln-center">
 
-														<article class="box excerpt">
-															<header>
-																<span class="date">July 30</span>
-																<h3><a href="#">Just another post</a></h3>
-															</header>
-															<p>Lorem ipsum dolor odio facilisis convallis. Etiam non nunc vel est
-															suscipit convallis non id orci lorem ipsum sed magna consequat feugiat lorem dolore.</p>
-														</article>
+										<div class="col-4 col-6-medium col-12-small">
 
-												</li>
-												<li>
+											<section>
+												<a href="#" class="image featured"><img src="media/binarized_blur_2d_cameraman.jpg" alt="" /></a>
+												<header>
+													<h3> Smoothing the image first and then convolving with the finite difference operators. </h3>
+												</header>
+											</section>
+										</div>
 
-														<article class="box excerpt">
-															<header>
-																<span class="date">July 28</span>
-																<h3><a href="#">And another post</a></h3>
-															</header>
-															<p>Lorem ipsum dolor odio facilisis convallis. Etiam non nunc vel est
-															suscipit convallis non id orci lorem ipsum sed magna consequat feugiat lorem dolore.</p>
-														</article>
+										<div class="col-4 col-6-medium col-12-small">
+			
+												<section>
+													<a href="#" class="image featured"><img src="media/binarized_blur_gauss_deriv_cameraman.jpg" alt="" /></a>
+													<header>
+														<h3>Taking derivatives of gradients first and then convolving with the image. </h3>
+													</header>
+												</section>
+										</div>
+									</div>
 
-												</li>
-												<li>
+									<p> Compared with the non-smoothed version in part 1.1, these edges are both thicker and less "pixelated". The edges just look more
+										connected and clean. </p>
 
-														<article class="box excerpt">
-															<header>
-																<span class="date">July 24</span>
-																<h3><a href="#">One more post</a></h3>
-															</header>
-															<p>Lorem ipsum dolor odio facilisis convallis. Etiam non nunc vel est
-															suscipit convallis non id orci lorem ipsum sed magna consequat feugiat lorem dolore.</p>
-														</article>
 
-												</li>
-											</ul>
-										</section>
+								</article>
 
-										<section>
-											<ul class="divided">
-												<li>
+								<article class="box post">
 
-														<article class="box highlight">
-															<header>
-																<h3><a href="#">Something of note</a></h3>
-															</header>
-															<a href="#" class="image left"><img src="images/pic06.jpg" alt="" /></a>
-															<p>Phasellus sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
-															viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
-															convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
-															facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
-															<ul class="actions">
-																<li><a href="#" class="button icon solid fa-file">Learn More</a></li>
-															</ul>
-														</article>
+									<header>
+										<h2>Part 2: Fun with Frequencies!</h2>
+									</header>
+									<h3>2.1: Image "Sharpening"</h3>
+									<p> As we saw in part 1, is if we convolve the 2D Gaussian with an image, it smoothes out the image. This is because a Gaussian acts like a 
+										low pass filter: when convolved with an image, the image's high frequencies will be filtered out, so the resulting image will be blurred. 
+										In order to "sharpen" an image, we can get the high frequencies of image (original image - blurred image) and add some of it back to the 
+										original image. Thus, more of the high frequencies of the image will be seen and the image will look sharper. The equation is:
+										<b>sharpened image = image + alpha * (image - blurred image)</b>, 
+										where alpha is how much of the high frequency image we add in.
+									</p>
 
-												</li>
-												<li>
+									<div class="row aln-center">
 
-														<article class="box highlight">
-															<header>
-																<h3><a href="#">Something of less note</a></h3>
-															</header>
-															<a href="#" class="image left"><img src="images/pic07.jpg" alt="" /></a>
-															<p>Phasellus sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
-															viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
-															convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
-															facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
-															<ul class="actions">
-																<li><a href="#" class="button icon solid fa-file">Learn More</a></li>
-															</ul>
-														</article>
+										<div class="col-4 col-6-medium col-12-small">
 
-												</li>
-											</ul>
-										</section>
+											<section>
+												<a href="#" class="image featured"><img src="media/blur_2d_taj_b.jpg" alt="" /></a>
+												<header>
+													<h3> Blurred blue channel </h3>
+												</header>
+											</section>
+										</div>
 
-								</div>
+										<div class="col-4 col-6-medium col-12-small">
+			
+												<section>
+													<a href="#" class="image featured"><img src="media/blur_2d_taj_g.jpg" alt="" /></a>
+													<header>
+														<h3>Blurred green channel </h3>
+													</header>
+												</section>
+										</div>
 
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/blur_2d_taj_r.jpg" alt="" /></a>
+												<header>
+													<h3> Blurred red channel </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+			
+												<section>
+													<a href="#" class="image featured"><img src="media/high_freq_taj.jpg" alt="" /></a>
+													<header>
+														<h3>High frequency image. </h3>
+													</header>
+												</section>
+										</div>
+									</div>
+
+									<br>
+									<br>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/taj.jpg" alt="" /></a>
+												<header>
+													<h3> Original image of the Taj Mahal. </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+			
+												<section>
+													<a href="#" class="image featured"><img src="media/sharpen_hp_filter_taj.jpg" alt="" /></a>
+													<header>
+														<h3>Sharpened image of the Taj Mahal. </h3>
+													</header>
+												</section>
+										</div>
+
+									<p> Additionally, rather than having to subtract the blurry image from the original image and then adding that to the original image,
+										we can combine this into a single convolution operation by using the unsharp mask filter. The unsharp mask filter is just 
+										<b>(1 + alpha)*unit_impulse - alpha * 2D gaussian</b>, which we then convolve with the image we want to sharpen. This is mathmatically
+										equivalent to the sharpening technique described above, so the results look the same.  
+									</p>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/taj.jpg" alt="" /></a>
+												<header>
+													<h3> Original image of the Taj Mahal. </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/sharpen_unit_imp_taj.jpg" alt="" /></a>
+												<header>
+													<h3>Sharpened image of the Taj Mahal by convolving it with the Unsharp Mask Filter. </h3>
+												</header>
+											</section>
+										</div>
+									</div>
+
+									<p> I then tried sharpening a blurry cat image. This one didn't work too well since the image was so blurry
+										even the high frequency parts of the image was blurry.
+									</p>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/cat.jpg" alt="" /></a>
+												<header>
+													<h3> Original cat image </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/sharpen_hp_filter_cat.jpg" alt="" /></a>
+												<header>
+													<h3>Sharpened cat image (alpha=1, kernel_size=15)</h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+
+											<section>
+												<a href="#" class="image featured"><img src="media/high_freq_cat.jpg" alt="" /></a>
+												<header>
+													<h3>High frequency cat image. </h3>
+												</header>
+											</section>
+										</div>
+
+									</div>
+
+									<p> After that, I tried sharpening a blurry photo of some ladders because it has more edges, so I thought there would be 
+										more to sharpen in the image. </p>
+									
+										<div class="row aln-center">
+
+											<div class="col-4 col-6-medium col-12-small">
+	
+												<section>
+													<a href="#" class="image featured"><img src="media/ladder2.jfif" alt="" /></a>
+													<header>
+														<h3> Original ladder image </h3>
+													</header>
+												</section>
+											</div>
+	
+											<div class="col-4 col-6-medium col-12-small">
+	
+												<section>
+													<a href="#" class="image featured"><img src="media/sharpen_hp_filter_ladder.jpg" alt="" /></a>
+													<header>
+														<h3>Sharpened ladder image (alpha=.7, kernel_size=10)</h3>
+													</header>
+												</section>
+											</div>
+	
+											<div class="col-4 col-6-medium col-12-small">
+	
+												<section>
+													<a href="#" class="image featured"><img src="media/high_freq_ladder.jpg" alt="" /></a>
+													<header>
+														<h3>High frequency ladder image. </h3>
+													</header>
+												</section>
+											</div>
+	
+										</div>
+
+
+									<p>Finally, I tried taking a very clear photo, blurring it using a 2D gaussian, and then sharpening it again: </p>
+
+										<div class="row aln-center">
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/nature.jpg" alt="" /></a>
+													<header>
+														<h3> Original sharp nature image </h3>
+													</header>
+												</section>
+											</div>
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/blur_nature.jpg" alt="" /></a>
+													<header>
+														<h3> Blurred nature image (kernel_size=10)</h3>
+													</header>
+												</section>
+											</div>
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/high_freq_nature.jpg" alt="" /></a>
+													<header>
+														<h3>High frequency nature image </h3>
+													</header>
+												</section>
+											</div>
+
+											<div class="col-4 col-6-medium col-12-small"></div>
+												<section>
+													<a href="#" class="image featured"><img src="media/sharpen_hp_filter_nature.jpg" alt="" /></a>
+													<header>
+														<h3>Sharpened nature image (alpha=1, kernel_size=20)</h3>
+													</header>
+												</section>
+											</div>
+
+										</div>
+
+										<p> After blurring, many of the fine details from the image were lost. These details could not be regained after sharpening,
+											so the sharpened image still looks much blurrier and less *crisp* than the original.
+										</p>
+
+									<h3>2.2: Hybrid Images </h3>
+									<p> Hybrid images can be created by combing a high frequency image with a low frequency image. From up close, the high frequency 
+										image will be clear, and from far away, the low frequency image will be clear. 
+									</p>
+
+									<p> To do this, we align the two images, apply a high pass filter on the image we want to see up close and a low pass filter for the image we 
+										want to see from far away, and then average the two images together. I chose a sigma value for the Gaussian filters that were used for the
+										LP and HP filters, and the corresponding kernel size would be sigma * 6. 
+									</p>
+
+									<p> Using this, we can create a puppy bagel! </p>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/puppy_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Puppy </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/bagel_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Bagel </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hybrid_bagel_puppy.jpg" alt="" /></a>
+												<header>
+													<h3>Puppy from up close, bagel from afar! </h3>
+													<p> Bagel sigma = 8 and Puppy sigma = 11 </p>
+												</header>
+											</section>
+										</div>
+
+									</div>
+
+									<p> To get a better understanding of this process, we can look at the frequencies of the images in the Fourier space. As we can see from the plot,
+										the puppy had a higher frequency than the bagel even before applying the HP and LP filters. This makes sense because the puppy has more details 
+										than the bagel, and thus would be easier to see from up close and harder to see from far away anyways.
+									</p>
+									<span class="image featured"><img src="media/fourier_puppy_bagel.png" alt="" /></span>
+
+									<p> A few more hybrid images: </p>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/nutmeg_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Nutmeg </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/derek_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Derek </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hybrid_derek_nutmeg.jpg" alt="" /></a>
+												<header>
+													<h3> Nutmeg from up close and derek from afar! </h3>
+													<p> Nutmeg sigma = 10 and Derek sigma = 10 </p>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/vampire_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Morbius the vampire </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/doctor_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> Morbius the doctor </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hybrid_jared_leto_vampire.jpg" alt="" /></a>
+												<header>
+													<h3> Vampire from up close and doctor from afar! </h3>
+													<p> Vampire sigma = 7 and Doctor sigma = 6 </p>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/one_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> One dollar (how much money I really have) </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hundred_aligned.jpg" alt="" /></a>
+												<header>
+													<h3> One hundred dollars (how much I wish I have) </h3>
+												</header>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hybrid_hundred_one.jpg" alt="" /></a>
+												<header>
+													<h3> One dollar from up close and a hundred dollars from away. </h3>
+													<p> One sigma = 7 and Hundred sigma = 5 </p>
+												</header>
+											</section>
+										</div>
+
+										<p>The one dollar from up close and a hundred dollars from away ended up being a fail. No matter how much I toggled the sigma 
+											values, you can always see Ben Franklin pretty clearly from up close and the details of the one dollar from far away. This is likely
+											due to the fact that the bills are so different in size and shape so they didn't line up well. I also couldn't really make either image fainter
+											so that they would be harder to see from up close/far away, since I would lose too much of the photo and then the numbers on the bills would be
+											unreadable. </p>
+									</div>
+
+									<h2> Multi-resolution Blending </h2>
+
+									<h3>2.3 Gaussian and Laplacian Stacks </h3>
+										<p> In order to blend together two images seemlessly and natually, we have to blend the images at different frequencies. To do this, we first must
+											create Gaussian and Laplacian stacks of the images. To create the Gaussian stack, at each level i, I applied the 2D Gaussian filter on the previous
+											level i-1 to get a blurrier image. To create the Laplacian stack, at each level i, I substracted level i + 1 of the Gaussian stack from level i of 
+											the Gaussian stack: laplacian_i = gaussian[:, :, :, i+1] - gaussian[:, :, :, i]. The final layer of the Laplacian stack is just the final layer of the
+											Gaussian stack because there is no next-Gaussian layer to subtract from it. </p>
+										<p> For example, here is the Gaussian and Laplacian stacks for an orange and for an apple:</p>
+
+										<div class="row aln-center">
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/gaussian_stack_orange.png" alt="" /></a>
+												</section>
+											</div>
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/gaussian_stack_apple.png" alt="" /></a>
+												</section>
+											</div>
+										</div>
+
+										<div class="row aln-center">
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/laplacian_stack_orange.png" alt="" /></a>
+												</section>
+											</div>
+
+											<div class="col-4 col-6-medium col-12-small">
+												<section>
+													<a href="#" class="image featured"><img src="media/laplacian_stack_orange.png" alt="" /></a>
+												</section>
+											</div>
+										</div>
+
+
+									<h3> Multi-Resolution Blending </h3>
+									<p> Now that we can the laplacian stacks of the two images, we can blend them together using a binary mask! To do this, we can 
+										create a gaussian stack of the mask and then add it to the laplacian masks of the two images we want to blend. The equation would then be 
+										<b>blended_level_i = gaussian_mask_i * im1_laplacian_i + (1-gaussian_mask_i * im2_laplacian_i)</b>. 
+										Im1 would be the white part of the mask and Im2 would be the black part of the mask. 
+									</p>
+									<p>
+										Note: I chose a kernel_size for each Gaussian filter used to create a Gaussian stack, and the corresponding sigma would be 6 * kernel_size. 
+									</p>
+
+									<p> Here are the results for the "oraple" blended together with a vertical black and white mask. </p>
+									
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/orange_mask_stack.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/apple_mask_stack.png" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/oraple_stack.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/orange.jpeg" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/apple.jpeg" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/blended_orange_apple.jpg" alt="" /></a>
+											</section>
+										</div>
+									</div>
+
+									<p> This can also be done for irregular masks! Like what if a raccoon really wanted sabrina carpenter's hair: </p>
+
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hair_mask_stack.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/raccoon_mask_stack.png" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hair_raccoon_stack.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/sabrina_aligned.jpg" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/raccoon_aligned.jpg" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hair_mask.png" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/blended_hair_raccoon.jpg" alt="" /></a>
+											</section>
+										</div>
+									</div>
+
+									<p>A few more examples:</p>
+									<p> Miffy blending in with real rabbits: </p>
+
+									<div class="row aln-center">
+										
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/miffy_padded.jpg" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/rabbits.jpg" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/miffy_mask.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/blended_miffy_field_of_rabbits.jpg" alt="" /></a>
+											</section>
+										</div>
+									</div>
+
+									<p> A hand with a mouth, ready to eat some fingers. (this one didn't work too well, likely because the mouth had a white background so it blended strangely)</p>
+									<div class="row aln-center">
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/hand.jpg" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/mouth.jpg" alt="" /></a>
+											</section>
+										</div>
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/mouth_mask.png" alt="" /></a>
+											</section>
+										</div>
+
+										<div class="col-4 col-6-medium col-12-small">
+											<section>
+												<a href="#" class="image featured"><img src="media/blended_hand_mouth.jpg" alt="" /></a>
+											</section>
+										</div>
+									</div>
+
+								</article>
 						</div>
+							
 					</div>
+
+				
 				</section>
 
+
+
 			<!-- Footer -->
-				<section id="footer">
+				<!-- <section id="footer">
 					<div class="container">
 						<header>
 							<h2>Questions or comments? <strong>Get in touch:</strong></h2>
@@ -335,7 +807,7 @@
 							<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</div>
-				</section>
+				</section> -->
 
 		</div>
 
