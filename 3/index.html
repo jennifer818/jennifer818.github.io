@@ -65,7 +65,7 @@
 							This project explores smoothly morphing face from one to another. This is done by defining correspondence points on the images, 
 							triangulating the points, warping the triangles from one to the corresponding triangles to the next image, and finally,
 							cross-dissolving the colors. Through facial morphing, I also explore finding the average face of a population and 
-							create caricatures!
+							creating caricatures! 
 						</p>
 					</header>
 				</section>
@@ -93,7 +93,8 @@
 				<div class="wrapper style2">
 
 					<article id="main" class="container special">
-						<a href="#" class="image featured"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a>
+						<!-- <a href="#" class="image featured"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a> -->
+						<!-- <a href="#" class="image featured"><img src="media/da_vinci.jpg" alt="" /></a> -->
 						<!-- <header>
 							<h2><a href="#">Sed massa imperdiet magnis</a></h2>
 							<p>
@@ -123,11 +124,10 @@
 
 					<section id="features" class="container special">
 						<header>
-							<h2>Part 1: Defining Correspondences</h2>
+							<h2>Defining Correspondences</h2>
 							<p> After scaling and cropping the two images to be the same size, the first step for face morphing is to define correspondence 
-								points on the images. I selected 51 correspondence points for each image, matching up the facial features and body positions 
-								of the images. 
-								Then, I used <code>scipy.spatial.Delaunay</code> to connect the points on each image into non-overlapping triangles. </p>
+								points on the images. I selected 51 correspondence points for each image, making sure to match up the facial features and body positions . 
+								Then, I used <mark>scipy.spatial.Delaunay</mark> to connect the points on each image into non-overlapping triangles. </p>
 						</header>
 						<div class="row">
 							<article class="col-6 col-12-mobile special">
@@ -151,13 +151,283 @@
 
 				</div>
 
-			<!-- Footer -->
-				<div id="footer">
-					<div class="container">
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Computing the "Mid-way Face"</h2>
+							<p> Before figuring out how to generate the morph sequence, I first had to figure out how to create the "mid-way face" for 
+								Chris and me. This is pretty much just warping my face and Chris's face to the average shape of both our faces and 
+								then averaging the colors. For the sake of simplicity, let's call the image of my face "A", the the image of Chris's face "B".
+							</p>
+
+							<p> I first computed where the average correspondence points would be: avg_corres_pts = warp_frac * A_corres_pts + (1 - warp_frac) * B_corres_pts, where 
+								warp_frac is 1/2. 
+								Then, I used the same Delaunay triangulation and to connect the average points into triangles. 
+							</p>
+
+							<p> For each triangle in the avg-image, I calculated the inverse transformation matrix T such that T * avg_triangle_i = A_triangle_i. 
+								Then, I get all the points in avg_triangle_i using <mark>sk.draw.polygon</mark>. Multiplying T with these points gets all the points
+								in A_triangle_i. However, because these image coordinates have decimals, and there cannot be a fraction of a pixel,
+								I had to interpolate the colors from the surrounding pixels using <mark>scipy.interpolate.RegularGridInterpolator</mark>. Now that I 
+								have the pixel values from A_triangle_i, I can repeat the same steps to get the pixel values from B_triangle_i.
+							</p>
+							<p> Finally, I can fill in the average-image triangle with 
+								dissolve_frac * (interpolated colors from A_triangle_i) + (1-dissolve_frac) * (interpolated colors from B_triangle_i), 
+								where dissolve_frac is 1/2. Doing this for all the triangles gets the entire average image! </p>
+						</header>
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/me_scaled2.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Original image of me</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/chris_scaled.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Original image of Chris Hemsworth</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/me_chris_midway.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Midway image</a></h3>
+								</header>
+							</article>
+						</div>
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>The Morph Sequence</h2>
+							<p> Morphing one face to another face is just computing multiple "mid-way" faces, decrementing the warp_frac and dissolve_frac 
+								linearly from 1 to 0. At every step, the generated image will have more of Chris Hemsworth's image's shape and color and 
+								less of mine. 
+							</p>
+						</header>
+						<div class="row.aln-center ">
+							<article class="col-6 col-6-mobile">
+								<a href="#"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a>
+								<p>
+									The resulting gif has 55 "mid-way" images, playing at 12 fps.
+								</p>
+							</article>
+						</div>
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>The "Mean Face" of a Population</h2>
+							<p> Using morphing, I computed the mean face of the 200 unsmiling faces from the
+								<a href="https://fei.edu.br/~cet/facedatabase.html">FEI database</a>, which is a database
+								of Brazilian faces. I did this by first computing the average of the correspondence points to get the 
+								average shape (summing each corresponding point and diving by the number of images). 
+							</p>
+
+							<div class="row">
+
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/fei_debug_triangulation.jpg" alt="" /></a>
+									<header>
+										<h3><a href="#">FEI face triangulated with correspondence points</a></h3>
+										<p>Note: some of the correspondence points were out of bounds, so I had to np.clip the values so 
+											they were within the height and width of the image.
+										</p>
+									</header>
+								</article>
+
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/fei_correspondence.jpg" alt="" /></a>
+									<header>
+										<h3><a href="#">Average of all the correspondence points</a></h3>
+									</header>
+								</article>
+							</div>
+								
+							<br>
+							<p>Then I warped each image in the dataset to the average shape. The final image was created by averaging
+								the colors of all the warped images. 
+							</p>
+						</header>
+
+					</section>
+
+					<section class="carousel">
+						<div class="reel">
+
+							<article>
+								<a href="#" class="image featured"><img src="media/avg_fei_face.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Average unsmiling FEI face</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/1a.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Face 1 from the FEI dataset</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/fei1_to_avg.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Face 1 warped to avg shape</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/2a.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Face 2 from the FEI dataset</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/fei2_to_avg.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Face 2 warped to avg shape</a></h3>
+								</header>
+							</article>
+
+						</div>
+				</section>
+
+				<section id="features" class="container special">
+					<header>
+						<h2>The "Mean Face" of a Population</h2>
+						<p> I then warped my face shape to the average FEI face shape and warped the average FEI face shape to my face shape.
+							warp_frac was set to 0 (shape warped completely to target) and dissolve_frac was set to 1 (color comes 100% from origin).
+						</p>
+
 						<div class="row">
 
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/avg_fei_face.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Avg FEI face</a></h3>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/me_to_fei.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">My face to avg FEI face shape</a></h3>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/fei_to_me.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Avg FEI face to my face shape</a></h3>
+								</header>
+							</article>
+						</div>
+							
+					</header>
+
+				</section>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Caricatures: Extrapolating from the mean</h2>
+							<p> To create caricatures, I extrapolated from the population mean I found previously.
+								The caricature shape is alpha * (avg_population_correspondence_pts - my_face_correspondence_pts) + my_face_correspondence_pts,
+								where alpha less 0 or greater than 1. I then warped my face to this caricature shape. 
+								If alpha > 0, the output img emphasizes the population's features (I would look more Brazilian), but 
+								if alpha < 0, the output img emphasizes my features that stand out from the population. 
+							 </p>
+						</header>
+					</section>
+
+					<section class="carousel">
+						<div class="reel">
+
+							<article>
+								<a href="#" class="image featured"><img src="media/caricature_neg_1.png" alt="" /></a>
+								<header>
+									<h3><a href="#">alpha = -1</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/caricature_neg_pt_75.png" alt="" /></a>
+								<header>
+									<h3><a href="#">alpha = -.75</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/caricature_neg_pt_5.png" alt="" /></a>
+								<header>
+									<h3><a href="#">alpha = -.5</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/caricature_1_pt_5.png" alt="" /></a>
+								<header>
+									<h3><a href="#">alpha = 1.5</a></h3>
+								</header>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/caricature_1_pt_75.png" alt="" /></a>
+								<header>
+									<h3><a href="#">alpha = 1.75</a></h3>
+								</header>
+							</article>
+
+						</div>
+					</section>
+				</div>
+
+				<section id="features" class="container special">
+					<header>
+						<!-- <h2>Bells and Whistles</h2> -->
+						<h2> Morphing Ages and Morphing from Student to Student </h2>
+						<!-- <h4> Bells and Whistles </h4> -->
+						
+						<p> I morphed images of myself from elementery school, to middle school, to high school, to college, and to elementery school again.
+							A bunch of students and I also created a music video of our faces morphing into each other.
+							This was done using the same technique as morphing two images. We just had to be careful with labeling the correspondence points
+							in the same order for each image in the morph sequence. 
+						</p>
+
+						<div class="row">
+
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/age_loop.gif" alt="" /></a>
+							</article>
+
+							<iframe width="520" height="415"
+							src="https://youtube.com/embed/YnXyHEYWaT4?si=qGO0nLj0CgLocUcL">
+							</iframe>
+
+						</div>
+							
+					</header>
+
+				</section>
+
+			<!-- Footer -->
+				<!-- <div id="footer">
+					<div class="container">
+						<div class="row"> -->
+
 							<!-- Tweets -->
-								<section class="col-4 col-12-mobile">
+								<!-- <section class="col-4 col-12-mobile">
 									<header>
 										<h2 class="icon brands fa-twitter circled"><span class="label">Tweets</span></h2>
 									</header>
@@ -187,10 +457,10 @@
 											</article>
 										</li>
 									</ul>
-								</section>
+								</section> -->
 
 							<!-- Posts -->
-								<section class="col-4 col-12-mobile">
+								<!-- <section class="col-4 col-12-mobile">
 									<header>
 										<h2 class="icon solid fa-file circled"><span class="label">Posts</span></h2>
 									</header>
@@ -228,10 +498,10 @@
 											</article>
 										</li>
 									</ul>
-								</section>
+								</section> -->
 
 							<!-- Photos -->
-								<section class="col-4 col-12-mobile">
+								<!-- <section class="col-4 col-12-mobile">
 									<header>
 										<h2 class="icon solid fa-camera circled"><span class="label">Photos</span></h2>
 									</header>
@@ -255,7 +525,7 @@
 											<a href="#" class="image fit"><img src="images/pic15.jpg" alt="" /></a>
 										</div>
 									</div>
-								</section>
+								</section> -->
 
 						</div>
 						<hr />
@@ -263,7 +533,7 @@
 							<div class="col-12">
 
 								<!-- Contact -->
-									<section class="contact">
+									<!-- <section class="contact">
 										<header>
 											<h3>Nisl turpis nascetur interdum?</h3>
 										</header>
@@ -276,7 +546,7 @@
 											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
 											<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
 										</ul>
-									</section>
+									</section> -->
 
 								<!-- Copyright -->
 									<div class="copyright">
