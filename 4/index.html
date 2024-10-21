@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Project 4a: </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo">Image Warping and Mosaicing</a></h1>
+								<hr/>
+								<p>CS180 Project 4a</p>
+							</header>
+							<footer>
+								<!-- <a href="#banner" class="button circled scrolly">Start</a> -->
+							</footer>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li>
+									<a href="#">Other Projects</a>
+									<ul>
+										<li><a href="../1/index.html">Project 1</a></li>
+										<li><a href="../2/no-sidebar.html">Project 2</a></li>
+										<li><a href="../3/index.html">Project 3</a></li>
+									</ul>
+								</li>
+								<li><a href="../index.html">Full Portfolio</a></li>
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Banner -->
+				<section id="banner">
+					<header>
+						<h2>Introduction</h2>
+						<p>
+							This project explores using manually labelled corresponding points to warp photos so they are in the same
+							 orientation, and then stitching them together to create a larger image.  
+						</p>
+					</header>
+				</section>
+
+			<!-- Carousel -->
+				<!-- <section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/fei_correspondence.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/chris_triangulation.jpg" alt="" /></a>
+						</article>
+
+					</div>
+				</section> -->
+
+			<!-- Main -->
+				<div class="wrapper style2">
+
+					<article id="main" class="container special">
+						<!-- <a href="#" class="image featured"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a> -->
+						<!-- <a href="#" class="image featured"><img src="media/da_vinci.jpg" alt="" /></a> -->
+						<!-- <header>
+							<h2><a href="#">Sed massa imperdiet magnis</a></h2>
+							<p>
+								Sociis aenean eu aenean mollis mollis facilisis primis ornare penatibus aenean. Cursus ac enim
+								pulvinar curabitur morbi convallis. Lectus malesuada sed fermentum dolore amet.
+							</p>
+						</header>
+						<p>
+							Commodo id natoque malesuada sollicitudin elit suscipit. Curae suspendisse mauris posuere accumsan massa
+							posuere lacus convallis tellus interdum. Amet nullam fringilla nibh nulla convallis ut venenatis purus
+							sit arcu sociis. Nunc fermentum adipiscing tempor cursus nascetur adipiscing adipiscing. Primis aliquam
+							mus lacinia lobortis phasellus suscipit. Fermentum lobortis non tristique ante proin sociis accumsan
+							lobortis. Auctor etiam porttitor phasellus tempus cubilia ultrices tempor sagittis. Nisl fermentum
+							consequat integer interdum integer purus sapien. Nibh eleifend nulla nascetur pharetra commodo mi augue
+							interdum tellus. Ornare cursus augue feugiat sodales velit lorem. Semper elementum ullamcorper lacinia
+							natoque aenean scelerisque.
+						</p> -->
+						<!-- <footer>
+							<a href="#" class="button">Continue Reading</a>
+						</footer> -->
+					</article>
+
+				</div>
+
+			<!-- Features -->
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Taking Pictures</h2>
+							<p> The first part of this project is to take some pictures such that the transform between them is projective.
+								Ideally, I should have used a tripod. However, I did not have access to one, so I did my best to fix the position
+							of my phone camera by pinching my phone with one hand and rotating the phone with the other hand while snapping pictures.
+							Some examples are below. </p>
+						</header>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/glass1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/glass2_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing2_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_mid_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_right_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/va1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/va2_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hall_vert_bot_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hall_vert_top_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/whiteboard2_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/whiteboard1_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Recover Homographies"</h2>
+							<p>In order to recover the homogrophy between images, I first manually labelled correspondence points between the images using 
+								the same tool as project 3. Because these correspondence must be precise, I tried to only label corners to get the exact matching 
+								point in both images. Here is an example of the labeled correspondence points:
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_corres1.png" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_corres.png" alt="" /></a>
+							</article>
+						</div>
+
+						<header>
+							<p>Then, using these corresponding images, we can recover H that transforms a point from the original image, (p1, p2),
+								to a warped point, (q1, q2):
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/H__calc_1.png" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/H_calc_2.png" alt="" /></a>
+								<p> For every pair of correspondence points, stack two rows to A and 2 rows to b following the same format.
+									Since there will be more correspondence points and number of variables, we can use least sqaures to solve 
+									for a-h.
+								</p>
+							</article>
+						</div>
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Warp the Images</h2>
+							<p> After recovering H, we can now warp the images. We matmul H^-1 with all indices of the new image we want to create
+								(the canvas that the final panoramic image will be shown up). This will allow us to recover all the indices from the image
+								we want to warp, which we can then use to interpolate the colors from the image using the same function as project 3.   
+							</p>
+							<h2>Image Rectification</h2>
+							<p> We can perform a sanity check of whether our warp function works by warping an image of rectangular object that was taken
+								from the side into a rectangular shape. Essentially, we are changing the "perspective" of the image to be looking at it 
+								from straight on rather than sideways. We do this by finding H using the correspondence points that map the four corners of the object 
+								in the image to four chosen points that form a rectangle, and then using the H to warp the image.
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/laptop_rect.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rectifid_laptop.jpg" alt="" /></a>
+							</article>
+						</div>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/glass1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rectified_glass.jpg" alt="" /></a>
+							</article>
+						</div>
+						
+						<header>
+						<h2>Blending Images into a Mosaic</h2>
+							<p> Finally, we can blend our images into a mosaic. I do this by choosing one of the images, i, to warp the other 
+								image into the orientation of. I create a new image that is N * the shape of i, where N is the number of images 
+								that form the mosaic. This way I am pretty sure that the new image is large enough for the entire mosaic. I warp 
+								image i onto the center of the new image by first calculating the offset of its correspondence points, 
+								correspondence_offset = [(new_width - img_width)//2, (new_height - img_height)//2]. I find the correspondence points 
+								of img i on the new image, correspondences_middle_img, by adding correspondence offset to the original correspondence points 
+								of img i. After warping img i to the new img, I can then warp the other images onto the new img with the correct orientation
+								by finding H using those img's correspondence points and correspondences_middle_img and then warping like before. I take 
+								all of these warped images and then average them together to get the final mosaic. 
+							</p>
+							<p> However, in order to make the mosaic more seamless, we must normalize the colors of the final image. Without normalizing, 
+								the parts of the image with the most overlap are the brightest and the parts of the image with the least overlap are the 
+								dimmest. Thus, I create a mask such that every pixel has a value j, which is the number of images that overlap. For example,
+								j = 1 if there is one image coloring that pixel, j = 2 if there are two images overlapped for that pixel, etc. I then multiply
+								the final img by N/mask (where mask is nonzero) in order to brighten each pixel of the image in inversely with how many overlaps 
+								there are. 
+							</p>
+							
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing2_transformed.jpg" alt="" /></a>
+							</article>
+						</div>
+							<div class="row">
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/likashing_mask.png" alt="" /></a>
+								</article>
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>
+									<p> Note some blurriness likely due to imprecisely rotating the camera. </p>
+								</article>
+							
+						</div>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_mid_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/office_horiz_right_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_office.jpg" alt="" /></a>
+							</article>
+						</div>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/whiteboard2_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/whiteboard1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_whiteboard.jpg" alt="" /></a>
+							</article>
+						</div>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/glass1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/glass2_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_glass.jpg" alt="" /></a>
+							</article>
+						</div>
+
+						<p> The vertical images had a much harsher seam, likely due to it being harder to keep 
+							the camera in the same place when taking vertical pictures.
+						</p>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/va1_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/va2_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_va2.jpg" alt="" /></a>
+							</article>
+						</div>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hall_vert_bot_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hall_vert_top_transformed.jpg" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_vert_hall.jpg" alt="" /></a>
+							</article>
+						</div>
+
+
+						
+					</section>
+
+				</div>
+
+				
+
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Contact -->
+									<!-- <section class="contact">
+										<header>
+											<h3>Nisl turpis nascetur interdum?</h3>
+										</header>
+										<p>Urna nisl non quis interdum mus ornare ridiculus egestas ridiculus lobortis vivamus tempor aliquet.</p>
+										<ul class="icons">
+											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
+											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+											<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+										</ul>
+									</section> -->
+
+								<!-- Copyright -->
+									<div class="copyright">
+										<ul class="menu">
+											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
