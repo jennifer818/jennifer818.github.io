@@ -252,16 +252,16 @@
 								that form the mosaic. This way I am pretty sure that the new image is large enough for the entire mosaic. I warp 
 								image i onto the center of the new image by first calculating the offset of its correspondence points, 
 								correspondence_offset = [(new_width - img_width)//2, (new_height - img_height)//2]. I find the correspondence points 
-								of img i on the new image, correspondences_middle_img, by adding correspondence offset to the original correspondence points 
-								of img i. After warping img i to the new img, I can then warp the other images onto the new img with the correct orientation
-								by finding H using those img's correspondence points and correspondences_middle_img and then warping like before. I take 
-								all of these warped images and then average them together to get the final mosaic. 
+								of img i on the new image, correspondences_middle_img, by adding correspondence_offset to the original correspondence points 
+								of img i. After warping img i to the new img, I can then warp the other images with the correct orientation onto a image the same size as new img 
+								by mapping those img's correspondence points to correspondences_middle_img. I then take 
+								all of these warped "new imgs" and then average them together to get the final mosaic. 
 							</p>
-							<p> However, in order to make the mosaic more seamless, we must normalize the colors of the final image. Without normalizing, 
+							<p> In order to make the mosaic more seamless, we must normalize the colors of the final image. Without normalizing, 
 								the parts of the image with the most overlap are the brightest and the parts of the image with the least overlap are the 
 								dimmest. Thus, I create a mask such that every pixel has a value j, which is the number of images that overlap. For example,
 								j = 1 if there is one image coloring that pixel, j = 2 if there are two images overlapped for that pixel, etc. I then multiply
-								the final img by N/mask (where mask is nonzero) in order to brighten each pixel of the image in inversely with how many overlaps 
+								the final img by N/mask (where mask is nonzero) in order to brighten each pixel of the image inversely with how many overlaps 
 								there are. 
 							</p>
 							
