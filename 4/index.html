@@ -53,8 +53,11 @@
 					<header>
 						<h2>Introduction</h2>
 						<p>
-							This project explores using manually labelled corresponding points to warp photos so they are in the same
-							 orientation, and then stitching them together to create a larger image.  
+							This project explores creating image mosaics by warping images so they are in the same
+							 orientation, and then stitching them together to create a larger image. In the first part of this project,
+							I manually label corresponding points between images, compute homographies using these points, and then warp
+							the images together. In the second part of the project, I create image mosaics using correspondence points that 
+							are automatically selected, filtered, and matched. 
 						</p>
 					</header>
 				</section>
@@ -113,7 +116,7 @@
 
 					<section id="features" class="container special">
 						<header>
-							<h2>Taking Pictures</h2>
+							<h2>A: Taking Pictures</h2>
 							<p> The first part of this project is to take some pictures such that the transform between them is projective.
 								Ideally, I should have used a tripod. However, I did not have access to one, so I did my best to fix the position
 							of my phone camera by pinching my phone with one hand and rotating the phone with the other hand while snapping pictures.
@@ -175,7 +178,7 @@
 
 					<section id="features" class="container special">
 						<header>
-							<h2>Recover Homographies"</h2>
+							<h2>A: Recover Homographies</h2>
 							<p>In order to recover the homogrophy between images, I first manually labelled correspondence points between the images using 
 								the same tool as project 3. Because these correspondence must be precise, I tried to only label corners to get the exact matching 
 								point in both images. Here is an example of the labeled correspondence points:
@@ -216,7 +219,7 @@
 
 					<section id="features" class="container special">
 						<header>
-							<h2>Warp the Images</h2>
+							<h2>A: Warp the Images</h2>
 							<p> After recovering H, we can now warp the images. We matmul H^-1 with all indices of the new image we want to create
 								(the canvas that the final panoramic image will show up on). This will allow us to recover all the indices from the image
 								we want to warp, which we can then use to interpolate the colors from the image using the same function as project 3.   
@@ -246,23 +249,40 @@
 						</div>
 						
 						<header>
-						<h2>Blending Images into a Mosaic</h2>
-							<p> Finally, we can blend our images into a mosaic. I do this by choosing one of the images, i, to warp the other 
+						<h2>A: Blending Images into a Mosaic</h2>
+							<p> Finally, we can stitching our images into a mosaic. I do this by choosing one of the images, i, to warp the other 
 								image into the orientation of. I create a new image that is N * the shape of i, where N is the number of images 
 								that form the mosaic. This way I am pretty sure that the new image is large enough for the entire mosaic. I warp 
 								image i onto the center of the new image by first calculating the offset of its correspondence points, 
 								correspondence_offset = [(new_width - img_width)//2, (new_height - img_height)//2]. I find the correspondence points 
 								of img i on the new image, correspondences_middle_img, by adding correspondence_offset to the original correspondence points 
 								of img i. After warping img i to the new img, I can then warp the other images with the correct orientation onto a image the same size as new img 
-								by mapping those img's correspondence points to correspondences_middle_img. I then take 
-								all of these warped "new imgs" and then average them together to get the final mosaic. 
+								by mapping those img's correspondence points to correspondences_middle_img. 
+								
 							</p>
-							<p> In order to make the mosaic more seamless, we must normalize the colors of the final image. Without normalizing, 
+							
+							<p> In order to stitch these warped images together, I try two different approaches. </p>
+
+							<p>
+								<b>Approach 1: </b> For the first approach I tried, I take all of these warped "new imgs" and then average them together to get the final mosaic.
+								To make the mosaic more seamless, I normalize the colors of the final image. Without normalizing, 
 								the parts of the image with the most overlap are the brightest and the parts of the image with the least overlap are the 
 								dimmest. Thus, I create a mask such that every pixel has a value j, which is the number of images that overlap. For example,
 								j = 1 if there is one image coloring that pixel, j = 2 if there are two images overlapped for that pixel, etc. I then multiply
 								the final img by N/mask (where mask is nonzero) in order to brighten each pixel of the image inversely with how many overlaps 
 								there are. 
+							</p>
+
+							<p>
+								<b>Approach 2: </b>For the second approach I tried, I take the warped imgs and create a binary polygon mask for each of the imgs, where 
+								the image is 1 and the background is 0. I then use <code>cv2.distanceTransform</code> to create a distance transform mask for each of the polygons.
+								The closer each polygon pixel is to 0 (the background), the closer the distance transform mask pixel is to 0. The mask for blending two warped imgs together
+								is just distance_transform_mask1 > distance_transform_mask2: 1 where img1's pixel is further from the edge of the img and 0 where img2's pixel is further from the edge.
+								I then used this mask and the project 2 laplacian stack blending code to blend the images. 
+							</p>
+							<p>
+								Overall, approach 2 gives the imgs a less harsh seem, so that is the approach I went with, even though approach 2 makes the mosaic seem "greyer" than the 
+								mosaic stitched using approach 1. 
 							</p>
 							
 						</header>
@@ -270,21 +290,56 @@
 						<div class="row">
 							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/likashing1_transformed.jpg" alt="" /></a>
+								<header>
+									<h3> Left image of lawn right outside Li Ka Shing </h3>
+									<p></p>
+								</header>
 							</article>
 							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/likashing2_transformed.jpg" alt="" /></a>
+								<header><h3> Right image of lawn right outside Li Ka Shing </h3> <p></p></header>
 							</article>
 						</div>
 							<div class="row">
 								<article class="col-6 col-12-mobile special">
 									<a href="#" class="image featured"><img src="media/likashing_mask.png" alt="" /></a>
+									<header>
+										<h3><a href="#">Approach 1 Mask for Normalizing Color</a></h3>
+									</header>
 								</article>
 								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>
-									<p> Note some blurriness likely due to imprecisely rotating the camera. </p>
+									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>\
+									<header>
+										<h3><a href="#">Approach 1 Mosaic </a></h3>
+										<p> Note some blurriness likely due to imprecisely choosing correspondence points. </p>
+									</header>
 								</article>
-							
 						</div>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_distmask_left.png" alt="" /></a>
+								<header> <h3><a href="#"> Distance transform of left img </a></h3> <p></p></header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_distmask_center.png" alt="" /></a>
+								<header> <h3><a href="#">Distance transform of right img </a></h3> <p> </p> </header>
+							</article>
+						</div>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_blend_mask.png" alt="" /></a>
+								<header><h3> <a href="#">Approach 2 Mask for Blending </a> </h3> <p></p> </header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_likashing12_blended.jpg" alt="" /></a>
+								<header><h3> <a href="#">Approach 2 Mosaic </a></h3> <p></p> </header>
+							</article>
+						</div>
+
+						<br>
+						<b><header><p>More mosaiced imgs: </p></header></b>
 
 						<div class="row">
 							<article class="col-4 col-12-mobile special">
@@ -322,10 +377,6 @@
 							</article>
 						</div>
 
-						<p> The vertical images had a much harsher seam, likely due to it being harder to keep 
-							the camera in the same place when taking vertical pictures.
-						</p>
-
 						<div class="row">
 							<article class="col-4 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/va1_transformed.jpg" alt="" /></a>
@@ -347,21 +398,65 @@
 							</article>
 							<article class="col-4 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/mosaiced_vert_hall.jpg" alt="" /></a>
+								<header>
+									<p> Even though the seam is blurred, it is still noticeable due to the two stitched imgs being
+										slightly different colors. I suspect this could be because of my phone camera's color grading.
+									</p>
+								</header>
 							</article>
 						</div>
-
-
 						
 					</section>
+
+					<div class="wrapper style1">
+
+						<section id="features" class="container special">
+							<header>
+								<h2>B: Detecting Corner Features</h2>
+								<p>Now that we can create image mosaics by manually selecting correspondence points, let's try creating
+									an image mosaic through automatically choosing correspondence to save some clicking time. The first step 
+									to do this is to use the Harris corner detection algorithm, which calculates h, the Harris corner response
+									for each pixel, and coords, which are the coordinates of the corners in the image (the local maxes of h values.) 
+								</p>
+							</header>
+							<div class="row">
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/office_horiz_corres1.png" alt="" /></a>
+								</article>
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/office_horiz_corres.png" alt="" /></a>
+								</article>
+							</div>
+	
+							<header>
+								<p>Then, using these corresponding images, we can recover H that transforms a point from the original image, (p1, p2),
+									to a warped point, (q1, q2):
+								</p>
+							</header>
+	
+							<div class="row">
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/H__calc_1.png" alt="" /></a>
+								</article>
+								<article class="col-6 col-12-mobile special">
+									<a href="#" class="image featured"><img src="media/H_calc_2.png" alt="" /></a>
+									<p> For every pair of correspondence points, stack two rows to A and 2 rows to b following the same format.
+										Since there will be more correspondence points and number of variables, we can use least sqaures to solve 
+										for a-h.
+									</p>
+								</article>
+							</div>
+						</section>
+	
 
 				</div>
 
 				
 
 						</div>
-						<hr />
+						<!-- <hr />
 						<div class="row">
-							<div class="col-12">
+							<div class="col-12"> -->
 
 								<!-- Contact -->
 									<!-- <section class="contact">
