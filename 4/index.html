@@ -252,7 +252,9 @@
 						<h2>A: Blending Images into a Mosaic</h2>
 							<p> Finally, we can stitching our images into a mosaic. I do this by choosing one of the images, i, to warp the other 
 								image into the orientation of. I create a new image that is N * the shape of i, where N is the number of images 
-								that form the mosaic. This way I am pretty sure that the new image is large enough for the entire mosaic. I warp 
+								that form the mosaic. This way the mosaic has a good amount of every image. Though some of side images are 
+								did get cut off at the ends, when I tried making the mosaic larger, the ends were unproportionally large 
+								the code took a long time to run. I warp 
 								image i onto the center of the new image by first calculating the offset of its correspondence points, 
 								correspondence_offset = [(new_width - img_width)//2, (new_height - img_height)//2]. I find the correspondence points 
 								of img i on the new image, correspondences_middle_img, by adding correspondence_offset to the original correspondence points 
@@ -308,7 +310,7 @@
 									</header>
 								</article>
 								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>\
+									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>
 									<header>
 										<h3><a href="#">Approach 1 Mosaic </a></h3>
 										<p> Note some blurriness likely due to imprecisely choosing correspondence points. </p>
@@ -334,7 +336,10 @@
 							</article>
 							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/mosaiced_likashing12_blended.jpg" alt="" /></a>
-								<header><h3> <a href="#">Approach 2 Mosaic </a></h3> <p></p> </header>
+								<header>
+									<h3> <a href="#">Approach 2 Mosaic </a></h3>
+									 <p> The blurrines of the trees went away, maybe due to blending one of imprecisely warped
+										trees away. </p> </header>
 							</article>
 						</div>
 
@@ -589,7 +594,7 @@
 
 				<section id="features" class="container special">
 					<header>
-						<h2>B: RANSAC </h2>
+						<h2>B: Robust Homographies (RANSAC) </h2>
 						<p> Though most of these correspondence points look pretty good, there are also still some outliers. We cannot directly compute 
 							the homography using these points because even a few incorrect points can drastically mess up the warping. Therefore, we must 
 							use the RANSAC to choose the correct matches.    
@@ -621,10 +626,154 @@
 				</section>
 		</div>
 
+		<div class="wrapper style1">
 
-				
+			<section id="features" class="container special">
+				<header>
+					<h2>B: Creating Mosaics </h2>
+					<p> After getting the correspondence points between the images we want to stitch, we can finally stitch images 
+						together! I used the same method as part A to compute the homography, warp the images, and blend them together.
+						Here are the images from part A warped using the auto-chosen correspondence points. The blurriness and 
+						slight mismatched edges that were present in some of the mosaics from part A are no longer present.   
+					</p>
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/office_horiz_mid_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/office_horiz_right_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_office.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of the HKN Office </a></h3>
+								<p> The Clorox container is a bit fuzzy. </p>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_office_horiz1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of the HKN Office </a></h3>
+								<p> The fuzziness of the Clorox container is no longer present! </p>
+							</header>
+						</article>
+					</div>
 
-						</div>
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/likashing1_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/likashing2_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_likashing12_blended.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of the Lawn Outside Li Ka Shing </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_likashing1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of the Lawn Outside Li Ka Shing </a></h3>
+								<p> For this image, I don't see a significant difference. </p>
+							</header>
+						</article>
+					</div>
+					
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/whiteboard1_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/whiteboard2_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_whiteboard.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of a Whiteboard </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_whiteboard1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of a Whiteboard  </a></h3>
+								<p> For this image, I don't see a significant difference. </p>
+							</header>
+						</article>
+					</div>
+
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/glass1_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/glass2_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_glass.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of the Soda Hall Display Case </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_glass1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of the Soda Hall Display Case </a></h3>
+								<p> For this image, I don't see a significant difference. </p>
+							</header>
+						</article>
+					</div>
+
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/va1_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/va2_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_va2.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of VA Cafe </a></h3>
+								<p> There is a slight misalignment on the left pillar by the door. </p>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_va1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of VA Cafe </a></h3>
+								<p> The pillars are straight and aligned! </p>
+							</header>
+						</article>
+					</div>
+
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/hall_vert_bot_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/hall_vert_top_transformed.jpg" alt="" /></a>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/mosaiced_vert_hall.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part A Mosaic of Soda Hall Hallway </a></h3>
+								<p> There is a slight misalignment on the left bulletin board thing. </p>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/autostitched_vert_hall1.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#"> Part B Mosaic of Soda Hall Hallway </a></h3>
+								<p> There is still a small misalignment on the left bulletin board, but it is much less noticeable. </p>
+							</header>
+						</article>
+					</div>
+				</header>
+			</section>
+	</div>
+
 						<!-- <hr />
 						<div class="row">
 							<div class="col-12"> -->
