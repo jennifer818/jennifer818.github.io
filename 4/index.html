@@ -195,7 +195,7 @@
 
 						<header>
 							<p>Then, using these corresponding images, we can recover H that transforms a point from the original image, (p1, p2),
-								to a warped point, (q1, q2):
+								to a sacled warped point, w * (q1, q2):
 							</p>
 						</header>
 
@@ -220,14 +220,14 @@
 					<section id="features" class="container special">
 						<header>
 							<h2>A: Warp the Images</h2>
-							<p> After recovering H, we can now warp the images. We matmul H^-1 with all indices of the new image we want to create
-								(the canvas that the final panoramic image will show up on). This will allow us to recover all the indices from the image
-								we want to warp, which we can then use to interpolate the colors from the image using the same function as project 3.   
+							<p> After recovering H, I can now warp the images. I matmul H^-1 with all indices of the new image I want to create
+								(the canvas that the final panoramic image will show up on). This will allow me to recover all the indices from the image
+								I want to warp, which I can then use to interpolate the colors from the image using the same function as project 3.   
 							</p>
 							<h2>Image Rectification</h2>
-							<p> We can perform a sanity check of whether our warp function works by warping an image of rectangular object that was taken
-								from the side into a rectangular shape. Essentially, we are changing the "perspective" of the image to be looking at it 
-								from straight on rather than sideways. We do this by finding H using the correspondence points that map the four corners of the object 
+							<p> I first perform a sanity check of whether the warp function works by warping an image of rectangular object that was taken
+								from the side into a rectangular shape. Essentially, I am changing the "perspective" of the image to be looking at it 
+								from straight on rather than sideways. I do this by finding H using the correspondence points that map the four corners of the object 
 								in the image to four chosen points that form a rectangle, and then using the H to warp the image.
 							</p>
 						</header>
@@ -247,19 +247,27 @@
 								<a href="#" class="image featured"><img src="media/rectified_glass.jpg" alt="" /></a>
 							</article>
 						</div>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
 						
 						<header>
 						<h2>A: Blending Images into a Mosaic</h2>
-							<p> Finally, we can stitching our images into a mosaic. I do this by choosing one of the images, i, to warp the other 
+							<p> Finally, I can stitch images into a mosaic. I do this by choosing one of the images, i, to warp the other 
 								image into the orientation of. I create a new image that is N * the shape of i, where N is the number of images 
 								that form the mosaic. This way the mosaic has a good amount of every image. Though some of side images are 
-								did get cut off at the ends, when I tried making the mosaic larger, the ends were unproportionally large 
-								the code took a long time to run. I warp 
-								image i onto the center of the new image by first calculating the offset of its correspondence points, 
+								cut off at the ends, when I tried making the mosaic larger, the ends were unproportionally huge and 
+								the code took a long time to run, so I just stuck with new_height, new_width = N * imgs[i].shape. 
+							</p>
+							<p>
+								I warp image i onto the center of the new image by first calculating the offset of its correspondence points, 
 								correspondence_offset = [(new_width - img_width)//2, (new_height - img_height)//2]. I find the correspondence points 
 								of img i on the new image, correspondences_middle_img, by adding correspondence_offset to the original correspondence points 
-								of img i. After warping img i to the new img, I can then warp the other images with the correct orientation onto a image the same size as new img 
-								by mapping those img's correspondence points to correspondences_middle_img. 
+								of img i. After warping img i to the new img, I can then warp the other images into the center image's orientation  and onto 
+								a new image with the size N * imgs[i].shape by mapping those img's correspondence points to correspondences_middle_img. 
 								
 							</p>
 							
@@ -283,8 +291,8 @@
 								I then used this mask and the project 2 laplacian stack blending code to blend the images. 
 							</p>
 							<p>
-								Overall, approach 2 gives the imgs a less harsh seem, so that is the approach I went with, even though approach 2 makes the mosaic seem "greyer" than the 
-								mosaic stitched using approach 1. 
+								Overall, approach 2 gives the imgs a less harsh seem, so that is the approach I went with (even though approach 2 makes the mosaic seem "greyer" than the 
+								mosaic stitched using approach 1). 
 							</p>
 							
 						</header>
@@ -299,23 +307,40 @@
 							</article>
 							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/likashing2_transformed.jpg" alt="" /></a>
-								<header><h3> Right image of lawn right outside Li Ka Shing </h3> <p></p></header>
+								<header>
+									<h3> Right image of lawn right outside Li Ka Shing </h3> 
+									<p></p>
+								</header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_warp1.png" alt="" /></a>
+								<header>
+									<h3> Warped right image </h3> 
+									<p></p>
+								</header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_warped2.png" alt="" /></a>
+								<header>
+									<h3> Warped left image </h3> 
+									<p></p>
+								</header>
 							</article>
 						</div>
-							<div class="row">
-								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/likashing_mask.png" alt="" /></a>
-									<header>
-										<h3><a href="#">Approach 1 Mask for Normalizing Color</a></h3>
-									</header>
-								</article>
-								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>
-									<header>
-										<h3><a href="#">Approach 1 Mosaic </a></h3>
-										<p> Note some blurriness likely due to imprecisely choosing correspondence points. </p>
-									</header>
-								</article>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/likashing_mask.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Approach 1 Mask for Normalizing Color</a></h3>
+								</header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mosaiced_likashing12.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#">Approach 1 Mosaic </a></h3>
+									<p> Note some blurriness likely due to imprecisely choosing correspondence points. </p>
+								</header>
+							</article>
 						</div>
 
 						<div class="row">
@@ -412,70 +437,74 @@
 						</div>
 						
 					</section>
-
-					<div class="wrapper style1">
-
-						<section id="features" class="container special">
-							<header>
-								<h2>Part B </h2>
-								<p> For some of the image mosaics created by manually selecting correspondence points, some were slightly blurry 
-									or a little mismatched at the seam. This is likely due to imprecisely selecting correspondence points, as being just 
-									a little off can impact the transform greatly. We can solve this issue by automatically choosing and matching the 
-									correspondence points. This will also save us lots of clicking time!
-								<p> Note: I had to scale down my images for part B since jupyter notebook gave me warnings about not being allowed
-									to allocate enough memory when I had to find pairwise distances for points. This made the functions run very 
-									fast but the images are also blurrier than they were in part A.
-								</p>
-							</header>
-						</section>
 				</div>
 
-					<div class="wrapper style1">
+				<div class="wrapper style1">
 
-						<section id="features" class="container special">
-							<header>
-								<h2>B: Detecting Corner Features</h2>
-								<p> The first step for automatically choosing correspondence points is to use the Harris corner detection algorithm, which
-									 calculates the Harris corner response for each pixel, h. The corner points in the img are the local maxes of these h values. 
-								</p>
-							</header>
-							<div class="row">
-								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/harris_strengths.png" alt="" /></a>
-									<header>
-										<h3><a href="#">Harris Matrix</a></h3>
-									</header>
-								</article>
-								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/harris_coords.png" alt="" /></a>
-									<header>
-										<h3><a href="#">Harris Points</a></h3>
-									</header>
-								</article>
-							</div>
-	
-							<header>
-								<p> There are way too many points for us to consider, so I filter out most of these points using the 
-									Adaptive Non-Maximal Suppression (ANMS) algorithm. This algorithm identifies the strongest corners in 
-									the image while keeping the points spread out relatively evenly across the image. To implement this filtering, 
-									I first calculate the pairwise distance for each h point and then create a mask such that each element (i, j) 
-									in the mask is set to True only if h_value[i] < c_robust * h_value[j]. I apply this mask to the pairwise distance
-									matrix and set all the zeroed out distances to infinity. Then I find the minimum radius for each point (minimum distance 
-									for each row in the masked pairwise distance matrix) and then sort the points from largest to smallest radius. The first num_corners
-									points are then returned  
-								</p>
-							</header>
-	
-							<div class="row">
-								<article class="col-6 col-12-mobile special">
-									<a href="#" class="image featured"><img src="media/anhs_pts.png" alt="" /></a>
-									<header>
-										<h3> Filtered Harris Pts Using ANMS </h3>
-										<p> c_robust = .9, num_points = 500</p>
-									</header>
-								</article>
-							</div>
-						</section>
+					<section id="features" class="container special">
+						<header>
+							<h2>Part B </h2>
+							<p> For the image mosaics created by manually selecting correspondence points, some were slightly blurry 
+								or a little mismatched at the seam. This is likely due to imprecisely selecting correspondence points, as being just 
+								a little off can impact the transform greatly. This issue can be solved by coding an algorithms that can automatically choose and match the 
+								correspondence points. This will also save lots of clicking time!
+							<p> Note: I had to scale down my images for part B since jupyter notebook gave me warnings about not being allowed
+								to allocate enough memory when I had to find pairwise distances for points. This made the functions run very 
+								fast but the images are also blurrier than they were in part A.
+							</p>
+						</header>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>B: Detecting Corner Features</h2>
+							<p> The first step for automatically choosing correspondence points is to use the Harris corner detection algorithm, which
+									calculates the Harris corner response for each pixel, h. The corner points in the img are where the local maxes of these h values are. 
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/harris_strengths.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Harris Matrix</a></h3>
+								</header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/harris_coords.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Harris Points</a></h3>
+								</header>
+							</article>
+						</div>
+
+						<header>
+							<p> There are way too many points for us to consider, so I filter out most of these points using the 
+								Adaptive Non-Maximal Suppression (ANMS) algorithm. This algorithm identifies the strongest corners in 
+								the image while keeping the points spread out relatively evenly across the image. 
+							</p>
+							<p>
+								To implement this filtering, 
+								I first calculate the pairwise distance for each h point and then create a mask such that each element (i, j) 
+								in the mask is set to True only if h_value[i] < c_robust * h_value[j]. I apply this mask to the pairwise distance
+								matrix and set all the zeroed-out distances to infinity. Then I find the minimum radius for each point (minimum distance 
+								in each row in the masked pairwise distance matrix) and sort the points from largest to smallest min-radius. The first num_corners
+								points are returned.  
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/anhs_pts.png" alt="" /></a>
+								<header>
+									<h3> Filtered Harris Pts Using ANMS </h3>
+									<p> c_robust = .9, num_points = 500</p>
+								</header>
+							</article>
+						</div>
+					</section>
 				</div>
 
 				<div class="wrapper style1">
@@ -483,10 +512,9 @@
 					<section id="features" class="container special">
 						<header>
 							<h2>B: Extracting a Feature Descriptor </h2>
-							<p> For each corner point in the img, we now need to extract a feature descriptor for matching corresponding points between each image. 
-								To get the feature descriptors, I first gaussian blur the image to avoid aliasing, slide the 40x40 patch around the point, and  
-								resize the patch to be 8x8. I flatten the feature and then normalize it by subtracting the feature mean and dividing by from the
-								feature standard deviation.   
+							<p> For each corner point in the img, I will extract a feature descriptor in order to match corresponding points between each image. 
+								To get the feature descriptors, I first gaussian blur the image to avoid aliasing, slice a 40x40 patch of pixels around the point, and  
+								resize the patch to be 8x8. I flatten the feature and then normalize it by subtracting each feature from its mean and dividing by its standard deviation.   
 							</p>
 							<p> Here are some examples of features from the photo above before flattening and normalization: </p>
 						</header>
@@ -524,16 +552,25 @@
 					<header>
 						<h2>B: Matching Feature Descriptors </h2>
 						<p> 
-							With feature descriptors from two images, we can match up their respective points to get correspondence points 
-							between images. First, I find the pairwise distances matrix, ssd, between the features of img1, feature1, and 
-							the features of img2. features2: ssd[i,j] is the sum of squares distance between features1_i and features2_j. I 
-							then use np.argsort on ssd to find the nearest neighbor feature2 for every feature1. However, many of these nearest 
-							neighbor pairs are likely not matching points, since there are many points from img 1 that likely don't have a matching
-							point in img 2. We can filter most of these points out using lowe's threshold. For every feature in features1, I calculate 
-							the lowe value: the distance to its first nearest neighbor / the distance to its second nearest neibor. I filter out 
-							 all feature pairs whose lowe value >= the lowe_threshold. The idea is that for a real match, the first nearest neighbor 
-							 will be much closer than the second nearest neighbor, so its lowe value will be very small. Finally, I take the remaining 
-							 feature pairs and return their corresponding corner points. These corner points are the correspondence points between 
+							With feature descriptors from two images, I can match up their respective points to get correspondence points 
+							between images. 
+						</p>
+						<p>
+							First, I find the pairwise distances matrix, ssd, between the features of img1 and 
+							the features of img2: ssd[i,j] is the sum of squares distance between feature1_i and feature2_j. Features of img1 
+							will be denoted as feature1 and features of img2 will be denoted as feature2. 
+						</p>
+						<p> 
+							I then use np.argsort on ssd to find the nearest neighbor feature2 for every feature1. However, many of these nearest 
+							neighbor pairs are likely not matching points, since there are many points from img 1 that don't have a matching
+							point in img 2. Most of these false matches can be filtered out using lowe's ratio test. For every feature in feature1, I calculate 
+							the lowe_value: the distance to its first nearest neighbor / the distance to its second nearest neibor. I filter out 
+							 all feature pairs whose lowe_value >= lowe_threshold. The idea is that for a real match, the first nearest neighbor 
+							 will be much closer than the second nearest neighbor, so its lowe value will be very small. 
+						</p>
+						<p>
+							Finally, I take the remaining 
+							 feature pairs and return their respective corner points. These corner points are the correspondence points between 
 							 the images! 
 						</p>
 						<p> Examples of some correspondence points after being filtered with a lowe_threshold of .7: </p>
@@ -596,20 +633,20 @@
 					<header>
 						<h2>B: Robust Homographies (RANSAC) </h2>
 						<p> Though most of these correspondence points look pretty good, there are also still some outliers. We cannot directly compute 
-							the homography using these points because even a few incorrect points can drastically mess up the warping. Therefore, we must 
-							use the RANSAC to choose the correct matches.    
+							the homography using these points because even a few incorrect points can drastically mess up the warping. Therefore,  
+							the RANSAC algorithm must be used to choose only the correct matches.    
 						</p>
 						<p> First, I randomly select 4 correspondence points without replacement. Then, I compute the the homography H using the function 
-							from part A. With H, img1's points are warped into img2's orientation and unsclaed. If correct, these points should be very close to its 
+							from part A. Using this H, img1's points are warped into img2's orientation and unscaled. If correctly warped, these img1 points should be very close to its 
 							matching point in img2. So I compute the ssd of the warped img1 pts to its matching img2 point. Any points with an ssd below a ransac_threshold are 
 							considered to be "correctly matched". I keep track of these "correctly matched" points and how many of them there are.
 						</p>
-						<p> After repeating the procedure above for num_samples number of times, and I return the set of the largest of correctly matched points. Thus, points
-							that do not follow the majority transformation are discarded and we get the final set of correspondence points! 
+						<p> After repeating the procedure above for num_samples number of times, I return the set of the largest of correctly matched points. Thus, points
+							that do not follow the majority transformation are discarded and we get the final set of matching correspondence points! 
 						</p>
 						<p>
 							Here is an example of the correspondence points after RANSAC. I only included 1/3 of the points to avoid overcrowding the image, but it can 
-							be seen that the outliers from the previous image are no longer present (such as the point matching the handsantizer head to the tape roller). 
+							be seen that the outliers from the previous image are no longer present (such as the point matching the hand santizer head to the tape roller). 
 						</p>
 						<p>
 							I used num_samples=1500 and ransac_threshold=2
@@ -631,7 +668,7 @@
 			<section id="features" class="container special">
 				<header>
 					<h2>B: Creating Mosaics </h2>
-					<p> After getting the correspondence points between the images we want to stitch, we can finally stitch images 
+					<p> After getting the correspondence points between the images we want to stitch, I can finally stitch images 
 						together! I used the same method as part A to compute the homography, warp the images, and blend them together.
 						Here are the images from part A warped using the auto-chosen correspondence points. The blurriness and 
 						slight mismatched edges that were present in some of the mosaics from part A are no longer present.   
@@ -646,14 +683,14 @@
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_office.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of the HKN Office </a></h3>
+								<h3><a href="#"> Manually Stitched Mosaic of the HKN Office </a></h3>
 								<p> The Clorox container is a bit fuzzy. </p>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_office_horiz1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of the HKN Office </a></h3>
+								<h3><a href="#"> Automatically Stitched Mosaic of the HKN Office </a></h3>
 								<p> The fuzziness of the Clorox container is no longer present! </p>
 							</header>
 						</article>
@@ -669,13 +706,13 @@
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_likashing12_blended.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of the Lawn Outside Li Ka Shing </a></h3>
+								<h3><a href="#"> Manually Stitched Mosaic of the Lawn Outside Li Ka Shing </a></h3>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_likashing1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of the Lawn Outside Li Ka Shing </a></h3>
+								<h3><a href="#"> Automatically Stitched Mosaic of the Lawn Outside Li Ka Shing </a></h3>
 								<p> For this image, I don't see a significant difference. </p>
 							</header>
 						</article>
@@ -683,21 +720,21 @@
 					
 					<div class="row">
 						<article class="col-6 col-12-mobile special">
-							<a href="#" class="image featured"><img src="media/whiteboard1_transformed.jpg" alt="" /></a>
+							<a href="#" class="image featured"><img src="media/whiteboard2_transformed.jpg" alt="" /></a>
 						</article>
 						<article class="col-6 col-12-mobile special">
-							<a href="#" class="image featured"><img src="media/whiteboard2_transformed.jpg" alt="" /></a>
+							<a href="#" class="image featured"><img src="media/whiteboard1_transformed.jpg" alt="" /></a>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_whiteboard.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of a Whiteboard </a></h3>
+								<h3><a href="#"> Manually Stitched Mosaic of a Whiteboard </a></h3>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_whiteboard1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of a Whiteboard  </a></h3>
+								<h3><a href="#"> Automatically Stitched Mosaic of a Whiteboard  </a></h3>
 								<p> For this image, I don't see a significant difference. </p>
 							</header>
 						</article>
@@ -713,13 +750,13 @@
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_glass.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of the Soda Hall Display Case </a></h3>
+								<h3><a href="#"> Manually Stitched Mosaic of the Soda Hall Display Case </a></h3>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_glass1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of the Soda Hall Display Case </a></h3>
+								<h3><a href="#"> Automatically Stitched Mosaic of the Soda Hall Display Case </a></h3>
 								<p> For this image, I don't see a significant difference. </p>
 							</header>
 						</article>
@@ -735,15 +772,15 @@
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_va2.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of VA Cafe </a></h3>
+								<h3><a href="#"> Manually Stitched Mosaic of VA Cafe </a></h3>
 								<p> There is a slight misalignment on the left pillar by the door. </p>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_va1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of VA Cafe </a></h3>
-								<p> The pillars are straight and aligned! </p>
+								<h3><a href="#"> Automatically Stitched Mosaic of VA Cafe </a></h3>
+								<p> The pillar is straight and aligned! </p>
 							</header>
 						</article>
 					</div>
@@ -758,21 +795,37 @@
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/mosaiced_vert_hall.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part A Mosaic of Soda Hall Hallway </a></h3>
-								<p> There is a slight misalignment on the left bulletin board thing. </p>
+								<h3><a href="#"> Manually Stitched Mosaic of Soda Hall Hallway </a></h3>
+								<p> There is a slight misalignment on the left grey bulletin board thing. </p>
 							</header>
 						</article>
 						<article class="col-6 col-12-mobile special">
 							<a href="#" class="image featured"><img src="media/autostitched_vert_hall1.jpg" alt="" /></a>
 							<header>
-								<h3><a href="#"> Part B Mosaic of Soda Hall Hallway </a></h3>
+								<h3><a href="#"> Automatically Stitched Mosaic of Soda Hall Hallway </a></h3>
 								<p> There is still a small misalignment on the left bulletin board, but it is much less noticeable. </p>
 							</header>
 						</article>
 					</div>
 				</header>
 			</section>
-	</div>
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>Reflection </h2>
+					<p> Overall, this project was super interesting, as I never considered all the warping that goes into creating an image mosaic. I always assumed that all 
+						my iPhone had to do to create a panoramic photo was linearly add the images together one by one. I also thought it was very satisfying in part B to 
+						learn how to filter out more and more correspondence points through each algorithm to finally arrive 
+						at the correct set of points. For the past month, I did a lot of clicking to select correspondence points for projects 3 and 4a, 
+						and often had to start over when I realized that I clicked too hastily and the points didn't match up well, so it was really cool to learn how to automate 
+						the process. It was also interesting to look at the points that the algorithm choose, since I didn't even consider some of them, like the ones that are
+						in the middle of a wall or chair.      
+					</p>
+			</section>
+		</div>
 
 						<!-- <hr />
 						<div class="row">
