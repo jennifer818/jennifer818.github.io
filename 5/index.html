@@ -1,0 +1,1425 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Project 5</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo">Fun With Diffusion Models!</a></h1>
+								<hr/>
+								<p>CS180 Project 5</p>
+							</header>
+							<footer>
+							</footer>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li>
+									<a href="#">Other Projects</a>
+									<ul>
+										<li><a href="../1/index.html">Project 1</a></li>
+										<li><a href="../2/no-sidebar.html">Project 2</a></li>
+										<li><a href="../3/index.html">Project 3</a></li>
+										<li><a href="../4/index.html">Project 4</a></li>
+									</ul>
+								</li>
+								<li><a href="../index.html">Full Portfolio</a></li>
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Banner -->
+				<section id="banner">
+					<header>
+						<h2>Introduction</h2>
+						<p>
+							This project explores diffusion models and using them to generate images. In part A, I will employ
+							a pretrained denoising neural net, DeepFloyd, in order to iteratievly denoise and generate images. In 
+							part B, I will implement and train my own denoiser in order to generate images with numbers on them.
+
+							Note: each notebook in this project has global seed=180
+						</p>
+					</header>
+				</section>
+
+			<!-- Carousel -->
+				<!-- <section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/fei_correspondence.jpg" alt="" /></a>
+							<header>
+								<h3><a href="#">Pulvinar sagittis congue</a></h3>
+							</header>
+							<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/chris_triangulation.jpg" alt="" /></a>
+						</article>
+
+					</div>
+				</section> -->
+
+			<!-- Main -->
+				<div class="wrapper style2">
+
+					<article id="main" class="container special">
+						<!-- <a href="#" class="image featured"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a> -->
+						<!-- <a href="#" class="image featured"><img src="media/da_vinci.jpg" alt="" /></a> -->
+						<!-- <header>
+							<h2><a href="#">Sed massa imperdiet magnis</a></h2>
+							<p>
+								Sociis aenean eu aenean mollis mollis facilisis primis ornare penatibus aenean. Cursus ac enim
+								pulvinar curabitur morbi convallis. Lectus malesuada sed fermentum dolore amet.
+							</p>
+						</header>
+						<p>
+							Commodo id natoque malesuada sollicitudin elit suscipit. Curae suspendisse mauris posuere accumsan massa
+							posuere lacus convallis tellus interdum. Amet nullam fringilla nibh nulla convallis ut venenatis purus
+							sit arcu sociis. Nunc fermentum adipiscing tempor cursus nascetur adipiscing adipiscing. Primis aliquam
+							mus lacinia lobortis phasellus suscipit. Fermentum lobortis non tristique ante proin sociis accumsan
+							lobortis. Auctor etiam porttitor phasellus tempus cubilia ultrices tempor sagittis. Nisl fermentum
+							consequat integer interdum integer purus sapien. Nibh eleifend nulla nascetur pharetra commodo mi augue
+							interdum tellus. Ornare cursus augue feugiat sodales velit lorem. Semper elementum ullamcorper lacinia
+							natoque aenean scelerisque.
+						</p> -->
+						<!-- <footer>
+							<a href="#" class="button">Continue Reading</a>
+						</footer> -->
+					</article>
+
+				</div>
+
+			<!-- Features -->
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Part A: The Power of Diffusion Models!</h2>
+							<p> For this part of the project, I will use a pre-trained diffusion model to denoise images, generate images 
+								from purse noise, editing images, inpaint images, create visual anagrams, and make hybrid images. </p>
+						</header>
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>A: 0. Sampling from the Model</h2>
+							<p> From HuggingFace, I downloaded two DeepFloyd stages. Stage1 is used to generate 3x64x64 images from prompt
+								embeddings stage2 is used to upscale these images to be 3x256x256 using the same prompt embedding. Both stages also 
+								take in the parameter num_inference_steps, which indicates how many denoising steps to take.  
+							</p>
+							<p> As can be seen below, with 20 denoising steps, stage 1 produces a pretty good image and stage 2 adds more detail. </p>
+						</header>
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/snow_stage1_20.png" alt="" /></a>
+								<h>stage 1 "snowy mountain village" with 20 steps</h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hat_stage1_20.png" alt="" /></a>
+								<h>stage 1 "man with hat" with 20 steps</h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage1_20.png" alt="" /></a>
+								<h>stage 1 "rocket" with 20 steps</h>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/snow_stage2_20.png" alt="" /></a>
+								<h>stage 2 "snowy mountain village" with 20 steps</h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/hat_stage2_20.png" alt="" /></a>
+								<h>stage 2 "man with hat" with 20 steps</h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage2_20.png" alt="" /></a>
+								<h>stage 2 "rocket" with 20 steps</h>
+							</article>
+						</div>
+
+						<header>
+							<p> When I increased the number of denoising steps for stage 2 from 20 to 50, the image upscaled image
+								has more details and looks clearer.
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/snow_stage1_20(1).png" alt="" /></a>
+								<h>stage 1 "snowy mountain village" with 20 steps</h>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/snow_stage2_50.png" alt="" /></a>
+								<h>stage 2 "snowy mountain village" with 50 steps</h>
+							</article>
+						</div>
+
+						<header>
+							<p> When I increased the number of denoising steps for stage 1 from 20 to 50, however, I didn't notice a significant 
+								different in the generated image.
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage1_50.png" alt="" /></a>
+								<h>stage 1 "rocket" with 50 steps</h>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage2_20(2).png" alt="" /></a>
+								<h>stage 2 "rocket" with 20 steps</h>
+							</article>
+						</div>
+
+						<header>
+							<p> But if I decreased the number of denoising steps for stage 1 from 20 to 5, the generated image was significantly less 
+								accurate to the prompt. 
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage1_5.png" alt="" /></a>
+								<h>stage 1 "rocket" with 5 steps</h>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/rocket_stage2_20(1).png" alt="" /></a>
+								<h>stage 2 "rocket" with 20 steps</h>
+							</article>
+						</div>
+					</section>
+				</div>
+
+
+
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>A: 1.1. Implementing the Forward Process </h2>
+							<p> The forward process of a diffusion model is to iteratively add noise to an image. We do that by following this 
+								algorithm, where the greater t is, the greater more noise is added to the image x_t.
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/forward_alg.png" alt="" /></a>
+							</article>
+						</div>
+						<div>
+							
+						</div>
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+								<p> We can visualize the forward process by adding noise to the image of the campanile.</p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/buffer.png" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/buffer.png" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_250.png" alt="" /></a>
+								<p> Noisy Campanile at t=250 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_500.png" alt="" /></a>
+								<p> Noisy Campanile at t=500 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_750.png" alt="" /></a>
+								<p> Noisy Campanile at t=750 </p>
+							</article>
+						</div>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						
+						<header>
+							<h2>A: 1.2. Classical Denoising </h2>
+							<p> We can try denoising the image first by using a technique from previous projects: Gaussian blurring. For each of the noisy imgs, 
+								I blur it using a Gaussian filter with kernel_size = 5 and sigma=5/6.
+							</p>
+						</header>
+							
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_250.png" alt="" /></a>
+								<p> Noisy Campanile at t=250 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_500.png" alt="" /></a>
+								<p> Noisy Campanile at t=500 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_750.png" alt="" /></a>
+								<p> Noisy Campanile at t=750 </p>
+							</article>
+						</div>
+
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/blurred_250.png" alt="" /></a>
+								<p> Gaussian Blur Denoising at at t=250 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/blurred_500.png" alt="" /></a>
+								<p> Gaussian Blur Denoising at t=500 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/blurred_750.png" alt="" /></a>
+								<p> Gaussian Blur Denoising at at t=750 </p>
+							</article>
+						</div>
+						
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>A: 1.3. One-Step Denoising </h2>
+							<p> As seen above, the denoising done using a Gaussian Blur filter does not do a good job of removing the noise. Now 
+								let's try using the stage_1 diffusion mode. I estimate the noise using stage_1, and then I use the foward process 
+								equation from above to solve for x_0 (the clean image). 
+							</p>
+							<p> Note: the prompt embeds for the diffusion model is the embedding for "a high quality photo". </p>
+
+						</header>
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/one_step_denoise_eq.png" alt="" /></a>
+								<p> epsilon is the predicted noise from stage_1 </p>
+								<br>
+							</article>
+						</div>
+
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+								<p> Original img</p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/buffer.png" alt="" /></a>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/buffer.png" alt="" /></a>
+							</article>
+						</div>
+						<br>
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_250.png" alt="" /></a>
+								<h> Noisy Campanile at t=250 </h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_500.png" alt="" /></a>
+								<p> Noisy Campanile at t=500 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile_750.png" alt="" /></a>
+								<p> Noisy Campanile at t=750 </p>
+							</article>
+						</div>
+						<br>
+						<div class = "row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/one_step_250.png" alt="" /></a>
+								<p> One-Step Denoised Campanile at t=250 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/one_step_500.png" alt="" /></a>
+								<p> One-Step Denoised Campanile at t=500 </p>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/one_step_750.png" alt="" /></a>
+								<p> One-Step Denoised Campanile at t=750 </p>
+							</article>
+						</div>
+							
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>A: 1.4 Iterative Denoising </h2>
+							<p> To get better results for denoising an image, we can implement the iteratively denoising algorithm, where we 
+								get gradually less noisy images at each time step until we arrive at a clean image rather than predicting the 
+								clean image in one step.
+							</p>
+							<p> Below are the iteratively denoised images at every 5th strided timestep (as the timesteps decrease, the image gets 
+								less noisy): </p>
+						</header>
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoise_690.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=690</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoise_540.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=540</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoise_390.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=390</a></h3>
+								</header>
+								<br>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoise_240.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=240</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoise_90.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=90</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/denoised.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Noisy Campanile at t=0 (fully denoised!)</a></h3>
+								</header>
+							</article>
+							<br>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/one_step.png" alt="" /></a>
+								<header>
+									<h3><a href="#">One-Step Denoised Campanile</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/gaussian.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Gaussian Blurred Campanile</a></h3>
+								</header>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+								<header>
+									<h3><a href="#">Original Campanile</a></h3>
+								</header>
+							</article>
+						</div>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>A: 1.5. Extracting a Feature Descriptor </h2>
+							<p> If we iteratively "denoise" an image of purse noise and use the prompt embeddings of "a high quality photo", we can generate images from scratch!
+								The generated images are below
+							</p>
+						</header>
+					</section>
+					<section class="carousel">
+						<div class="reel">
+
+							<article>
+								<a href="#" class="image featured"><img src="media/generated1.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/generated2.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/generated3.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/generated4.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/generated5.png" alt="" /></a>
+							</article>
+
+						</div>
+					
+					</section>
+					
+			</div>
+
+			<div class="wrapper style1">
+
+				<section id="features" class="container special">
+					<header>
+						<h2>A: 1.6. Classifier-Free Guidance (CFG) </h2>
+						<p> 
+							To improve the generated images, we can use classifier-free guidance. The only difference from iterative denoising is that the noise estimate 
+							incorporates both a conditional noise estimate (noise estimate from diffusion model using a prompt embedding i.e. "a high quality photo") and an unconditional noise 
+							estimate (noise estimate from diffusion model using the embedding for an empty string, ''). The equation for the noise estimate is 
+							uncond_noise + gamma * (cond_noise - uncond_noise). I used a gamma of 5. 
+						</p>
+						<p> These generated images look much more realistic. </p>
+					</header>
+				</section>
+					
+					<section class="carousel">
+						<div class="reel">
+
+							<article>
+								<a href="#" class="image featured"><img src="media/sample1.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/sample2.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/sample3.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/sample4.png" alt="" /></a>
+							</article>
+
+							<article>
+								<a href="#" class="image featured"><img src="media/sample5.png" alt="" /></a>
+							</article>
+
+						</div>
+					</section>
+
+				
+			</div>
+
+			<div class="wrapper style1">
+
+				<section id="features" class="container special">
+					<header>
+						<h2>A: 1.7. Image-to-image Translation </h2>
+						<p> Instead of generating images from scratch, we can add noise to an image and then denoise using cfg. This allows us to create "edits"
+							of the images. This implements the SDEdit algorithm.
+						</p>
+						<p> Here are some examples below with various noise levels. The smaller i_start is, the more noise was added to the original image.</p>
+					</header>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_1.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_3.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_5.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_7.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_10.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/sdedit_camp_20.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of campanile with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+							<header>
+								<h3>original campanile</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_1.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_3.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_5.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_7.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_10.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir_20.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of colorized emir with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/emir.png" alt="" /></a>
+							<header>
+								<h3>original colorized emir from project 1!</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_1.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_3.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_5.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_7.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_10.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway_20.png" alt="" /></a>
+							<header>
+								<h3>SDEdit of midway img with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/midway.png" alt="" /></a>
+							<header>
+								<h3>original midway img of me and chris hemsworth from project 3!</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section id="features" class="container special">
+					<header>
+						<h2>A: 1.7.1 Editing Hand-Drawn and Web Images </h2>
+						<p> Here are some SDEdits of a web-image and some hand-drawn images!
+						</p>
+					</header>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_1.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_3.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_5.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_7.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_10.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien_20.png" alt="" /></a>
+							<header>
+								<h3>alien with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/alien.png" alt="" /></a>
+							<header>
+								<h3>alien from the internet</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_1.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers_3.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers_5.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers_7.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers_10.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers_20.png" alt="" /></a>
+							<header>
+								<h3>flowers with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/drawing_flowers.png" alt="" /></a>
+							<header>
+								<h3>hand-drawn picture of flowers</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section class="carousel">
+					<div class="reel">
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat1.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=1</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat3.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=3</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat5.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=5</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat7.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=7</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat10.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=10</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat20.png" alt="" /></a>
+							<header>
+								<h3>cat with i_start=20</h3>
+							</header>
+						</article>
+
+						<article>
+							<a href="#" class="image featured"><img src="media/cat.png" alt="" /></a>
+							<header>
+								<h3>hand-drawn picture of a cat</h3>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section id="features" class="container special">
+					<header>
+						<h2>A: 1.7.2. Inpainting </h2>
+						<p> Instead of editing the entire image, we can edit just a section of it. Using a binary mask, at every time step, we set the denoised image to the 
+							original image with the appropriate noise where the mask is at 0.
+						</p>
+					</header>
+
+					<div class = "row">
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+							<header>
+								<p> Campanile </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/campanile_mask.png" alt="" /></a>
+							<p> Mask </p>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/campanile_replace.png" alt="" /></a>
+							<p> Hole to Fill </p>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/inpainted_campanile.png" alt="" /></a>
+							<p> Campanile Inpainted </p>
+						</article>
+					</div>
+
+					<div class = "row">
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/raccoon.png" alt="" /></a>
+							<header>
+								<p> Raccoon </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/raccoon_mask.png" alt="" /></a>
+							<header>
+							<p> Mask </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/raccoon_replace.png" alt="" /></a>
+							<header>
+							<p> Hole to Fill </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/inpainted_raccoon.png" alt="" /></a>
+							<header>
+							<p> Raccoon Inpainted </p>
+							</header>
+						</article>
+					</div>
+
+					<div class = "row">
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/hand.png" alt="" /></a>
+							<header>
+								<p> Hand </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/hand_mask.png" alt="" /></a>
+							<header>
+							<p> Mask </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/hand_replace.png" alt="" /></a>
+							<header>
+							<p> Hole to Fill </p>
+							</header>
+						</article>
+						<article class="col-3 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/inpainted_hand.png" alt="" /></a>
+							<header>
+							<p> Hand Inpainted </p>
+							</header>
+						</article>
+					</div>
+				</section>
+
+				<section id="features" class="container special">
+					<header>
+						<h2>A: 1.7.3 Text-Conditional Image-to-image Translation </h2>
+						<p> Now I will do the same thing as SDEdit, but instead of using the prompt embedding of "a high quality photo", I instead use 
+							an embedding of "a rocket ship" to guide images rocket edits of images at various noise levels.
+						</p>
+					</header>
+				</section>
+
+				<!-- Carousel -->
+				<section class="carousel">
+					<div class="reel">
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket1.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 1</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket3.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 3</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket5.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 5</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket7.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 7</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket10.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 10</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/rocket20.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Rocket Ship Campanile at noise level 20</a></h3>
+							</header>
+						</article>
+						<article>
+							<a href="#" class="image featured"><img src="media/campanile.png" alt="" /></a>
+							<header>
+								<h3><a href="#">Campanile</a></h3>
+							</header>
+						</article>
+					</div>
+				</section>
+			</section>
+
+			<section class="carousel">
+				<div class="reel">
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon1.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Campanile at noise level 1</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon3.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Raccoon at noise level 3</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon5.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Raccoon at noise level 5</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon7.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Raccoon at noise level 7</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon10.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Raccoon at noise level 10</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon20.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Raccoon at noise level 20</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/raccoon.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Raccoon</a></h3>
+						</header>
+					</article>
+				</div>
+			</section>
+
+			<section class="carousel">
+				<div class="reel">
+					<article>
+						<a href="#" class="image featured"><img src="media/midway1.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 1</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway3.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 3</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway5.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 5</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway7.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 7</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway10.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 10</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway20.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Rocket Ship Midway Face at noise level 20</a></h3>
+						</header>
+					</article>
+					<article>
+						<a href="#" class="image featured"><img src="media/midway.png" alt="" /></a>
+						<header>
+							<h3><a href="#">Midway Face</a></h3>
+						</header>
+					</article>
+				</div>
+			</section>
+		</section>
+
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>A: 1.8 Visual Anagrams </h2>
+					<p> We can generate images that look like one thing one way and another thing flipped around by tweaking the noise estimate in iterative denoising.
+						At each time step, we can get one pair of conditional/unconditional noise estimates by passing in the current image and one prompt embedding/unconditional embedding into DeepFloyd and another 
+						pair of noise estimates by passing in the flipped current image and the other prompt embedding/unconditional embedding. We then average these noise estimates and implement 
+						cfg as usual. 
+					</p>
+					<p> Note: I upsampled these images using on the two prompt embeddings so they are clearer. </p>
+					<div class="row">
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/campfire.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> People Sitting Around a Campfire </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/old_man.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> An Old Man </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/rocket.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> A Rocket </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/dog.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> A Dog </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/waterfall.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> A Waterfall </a></h3>
+							</header>
+						</article>
+						<article class="col-6 col-12-mobile special">
+							<a href="#" class="image featured"><img src="media/barista.png" alt="" /></a>
+							<header>
+								<h3><a href="#"> A Barista </a></h3>
+							</header>
+						</article>
+					</div>
+				</header>
+			</section>
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>A: 1.9. Hybrid Images </h2>
+					<p> Similar to anagrams, we can generate images that look like one thing up close and another from far away. This time, I changed the noise estimate 
+						by getting the noise estimates of two prompts and low pass filtering one of them and high pass filtering another of them.
+					</p>
+					<p> Note: I also upsampled these images using on the two prompt embeddings so they are clearer. </p>
+					<div class="row">
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/skull_waterfall.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Skull from far away and waterfall up close </a></h3>
+						</header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/dog_mountain_village.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Dog from far away and a mountain village up close </a></h3>
+						</header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/rocket_waterfall.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Rocket from far away and waterfall up close </a></h3>
+						</header>
+					</article>
+						
+					</div>
+				</header>
+			</section>
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>Part B: Diffusion Models from Scratch!</h2>
+					<p> For this part of the project, I will train a diffusion model from scratch! </p>
+				</header>
+			</section>
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>B: 1.1. Implementing the UNet</h2>
+					<p> First, I implemented this Unet </p>
+				</header>
+
+				<div class="row">
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/unet.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> UNet </a></h3>
+						</header>
+					</article>
+				</div>
+			</section>
+		</div>
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>B: 1.2. Using the UNet to Train a Denoiser</h2>
+					<p> After implementing the UNet, I trained it to denoise images in the MNIST dataset with sigma=.5 noise added to it. </p>
+				</header>
+
+				<div class="row">
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/1_2_1_loss.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Loss Curve </a></h3>
+						</header>
+					</article>
+
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/nums_generated.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Denoised images after 5th and 20th Epochs </a></h3>
+						</header>
+					</article>
+				</div>
+
+				<p> If we try to denoise images with other sigma values of noise added: </p>
+				<br>
+			</section>
+			<section class="carousel">
+				<div class="reel">
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_1.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.0</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_3.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.2</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_5.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.4</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_7.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.5</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_10.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.6</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir_20.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=0.8</h3>
+						</header>
+					</article>
+
+					<article>
+						<!-- <a href="#" class="image featured"><img src="media/emir.png" alt="" /></a> -->
+						<header>
+							<h3>sigma=1.0</h3>
+						</header>
+					</article>
+				</div>
+			</section>
+		</div>
+
+
+		<div class="wrapper style1">
+
+		<section id="features" class="container special">
+			<header>
+				<h2>B: 2.1. Adding Time Conditioning to UNet</h2>
+				<p> I then added time conditioning to the UNet so it can generate numbers from pure noise. </p>
+			</header>
+
+			<div class="row">
+				<article class="col-12 col-12-mobile special">
+					<a href="#" class="image featured"><img src="media/time_conditioning.png" alt="" /></a>
+					<header>
+						<h3><a href="#"> UNet with Time Conditioning </a></h3>
+					</header>
+				</article>
+
+			</div>
+		</section>
+
+		<section id="features" class="container special">
+			<header>
+				<h2>B: 2.2. Training the UNet</h2>
+			</header>
+
+			<div class="row">
+				<article class="col-12 col-12-mobile special">
+					<a href="#" class="image featured"><img src="media/training_loss_ddpm.png" alt="" /></a>
+					<header>
+						<h3><a href="#"> Training Loss </a></h3>
+					</header>
+				</article>
+			</div>
+		</section>
+
+		<section id="features" class="container special">
+			<header>
+				<h2>B: 2.4. Adding Class Conditioning to UNet</h2>
+				<p> I then added class conditioning to the UNet so it can generate specific numbers. </p>
+			</header>
+		</section>
+
+		<section id="features" class="container special">
+			<header>
+				<h2>B: 2.5. Sampling from the Class-Conditioned UNet</h2>
+			</header>
+
+			<div class="row">
+				<article class="col-12 col-12-mobile special">
+					<a href="#" class="image featured"><img src="media/class_cond_epoch5.png" alt="" /></a>
+					<header>
+						<h3><a href="#"> Generated Nums after Epoch 5 </a></h3>
+					</header>
+				</article>
+				<article class="col-12 col-12-mobile special">
+					<a href="#" class="image featured"><img src="media/class_cond_epoch20.png" alt="" /></a>
+					<header>
+						<h3><a href="#"> Generated Nums after Epoch 20 </a></h3>
+					</header>
+				</article>
+			</div>
+		</section>
+
+		</div>
+
+						<!-- <hr />
+						<div class="row">
+							<div class="col-12"> -->
+
+								<!-- Contact -->
+									<!-- <section class="contact">
+										<header>
+											<h3>Nisl turpis nascetur interdum?</h3>
+										</header>
+										<p>Urna nisl non quis interdum mus ornare ridiculus egestas ridiculus lobortis vivamus tempor aliquet.</p>
+										<ul class="icons">
+											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
+											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+											<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+										</ul>
+									</section> -->
+
+								<!-- Copyright -->
+									<div class="copyright">
+										<ul class="menu">
+											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							<!-- </div>
+
+						</div> -->
+					</div>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
