@@ -55,7 +55,7 @@
 						<p>
 							This project explores diffusion models and using them to generate images. In part A, I will employ
 							a pretrained denoising neural net, DeepFloyd, in order to iteratievly denoise and generate images. In 
-							part B, I will implement and train my own denoiser in order to generate images with numbers on them.
+							part B, I will implement and train my own denoiser in order to generate images of handwritten numbers..
 
 							Note: each notebook in this project has global seed=180
 						</p>
@@ -118,7 +118,7 @@
 						<header>
 							<h2>Part A: The Power of Diffusion Models!</h2>
 							<p> For this part of the project, I will use a pre-trained diffusion model to denoise images, generate images 
-								from purse noise, editing images, inpaint images, create visual anagrams, and make hybrid images. </p>
+								from pure noise, edit images, inpaint images, create visual anagrams, and make hybrid images. </p>
 						</header>
 					</section>
 
@@ -129,8 +129,8 @@
 					<section id="features" class="container special">
 						<header>
 							<h2>A: 0. Sampling from the Model</h2>
-							<p> From HuggingFace, I downloaded two DeepFloyd stages. Stage1 is used to generate 3x64x64 images from prompt
-								embeddings stage2 is used to upscale these images to be 3x256x256 using the same prompt embedding. Both stages also 
+							<p> From HuggingFace, I downloaded two DeepFloyd stages. The stage1 model is used to generate 3x64x64 images from prompt
+								embeddings. The stage2 model is used to upscale these images to be 3x256x256 using the same prompt embedding. Both stages also 
 								take in the parameter num_inference_steps, which indicates how many denoising steps to take.  
 							</p>
 							<p> As can be seen below, with 20 denoising steps, stage 1 produces a pretty good image and stage 2 adds more detail. </p>
@@ -182,7 +182,7 @@
 
 						<header>
 							<p> When I increased the number of denoising steps for stage 1 from 20 to 50, however, I didn't notice a significant 
-								different in the generated image.
+								difference in the generated image.
 							</p>
 						</header>
 
@@ -1205,7 +1205,7 @@
 			<section id="features" class="container special">
 				<header>
 					<h2>Part B: Diffusion Models from Scratch!</h2>
-					<p> For this part of the project, I will train a diffusion model from scratch! </p>
+					<p> For this part of the project, I will train a diffusion model from scratch, using PyTorch. </p>
 				</header>
 			</section>
 		</div>
@@ -1214,8 +1214,8 @@
 
 			<section id="features" class="container special">
 				<header>
-					<h2>B: 1.1. Implementing the UNet</h2>
-					<p> First, I implemented this Unet </p>
+					<h2>B: 1.1. Implementing the Single-Step Denoising UNet</h2>
+					<p> I used PyTorch to implement the denoiser as an UNet. </p>
 				</header>
 
 				<div class="row">
@@ -1234,7 +1234,7 @@
 			<section id="features" class="container special">
 				<header>
 					<h2>B: 1.2. Using the UNet to Train a Denoiser</h2>
-					<p> After implementing the UNet, I trained it to denoise images in the MNIST dataset with sigma=.5 noise added to it. </p>
+					<p> After implementing the UNet, I trained on the MNIST dataset to denoise images of handwritten numbers with sigma=.5 noise added to it. This model was trained for 5 epochs. </p>
 				</header>
 
 				<div class="row">
@@ -1244,71 +1244,253 @@
 							<h3><a href="#"> Loss Curve </a></h3>
 						</header>
 					</article>
+				</div>
 
-					<article class="col-12 col-12-mobile special">
-						<a href="#" class="image featured"><img src="media/nums_generated.png" alt="" /></a>
-						<header>
-							<h3><a href="#"> Denoised images after 5th and 20th Epochs </a></h3>
-						</header>
+				<header>
+					<p> After training for one epoch: </p>
+				</header>
+				<div class="row">
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven.png" alt="" /></a>
+						<header><h>Input</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_5noise.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_epoch1.png" alt="" /></a>
+						<header><h>Output</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two.png" alt="" /></a>
+						<header><h>Input</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_5noise.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_denoised_epoch5.png" alt="" /></a>
+						<header><h>Output</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one.png" alt="" /></a>
+						<header><h>Input</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_5noise.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_denoised_epoch1.png" alt="" /></a>
+						<header><h>Output</h></header>
 					</article>
 				</div>
 
-				<p> If we try to denoise images with other sigma values of noise added: </p>
-				<br>
-			</section>
-			<section class="carousel">
-				<div class="reel">
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_1.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.0</h3>
-						</header>
+				<header>
+					<p> After training for five epochs: </p>
+				</header>
+				<div class="row">
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven.png" alt="" /></a>
+						<header><h>Input</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_3.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.2</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_5noise_epoch5.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_5.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.4</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_epoch5.png" alt="" /></a>
+						<header><h>Output</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_7.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.5</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two.png" alt="" /></a>
+						<header><h>Input</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_10.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.6</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_5noise_epoch5.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir_20.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=0.8</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_denoised_epoch5.png" alt="" /></a>
+						<header><h>Output</h></header>
 					</article>
-
-					<article>
-						<!-- <a href="#" class="image featured"><img src="media/emir.png" alt="" /></a> -->
-						<header>
-							<h3>sigma=1.0</h3>
-						</header>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one.png" alt="" /></a>
+						<header><h>Input</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_5noise_epoch5.png" alt="" /></a>
+						<header><h>Noisy (sigma=.5)</h></header>
+					</article>
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_denoised_epoch5.png" alt="" /></a>
+						<header><h>Output</h></header>
 					</article>
 				</div>
+
+				<header>
+					<p> Even though the UNet was only trained on denoising images with sigma=.5 noise added, let's see how it denoises images with sigma = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0] of noise. </p>
+					<p> Varying levels of noise on MNIST digits: </p>
+				</header>
+
+				<div class="row">
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_0noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_2noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_4noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_6noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_8noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_10noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_0noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_2noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_4noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_6noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_8noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/two_10noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_0noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_2noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_4noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_6noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_8noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/one_10noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_0noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_2noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_4noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_5noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_8noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/zero_10noise.png" alt="" /></a>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_0noise.png" alt="" /></a>
+						<header><p>sigma = 0</p></header>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_2noise.png" alt="" /></a>
+						<header><p>sigma = .2</p></header>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_4noise.png" alt="" /></a>
+						<header><p>sigma = .4</p></header>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_5noise.png" alt="" /></a>
+						<header><p>sigma = .6</p></header>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_8noise.png" alt="" /></a>
+						<header><p>sigma = .8</p></header>
+					</article>
+					<article class="col-2 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/four_10noise.png" alt="" /></a>
+						<header><p>sigma = 1.0</p></header>
+					</article>
+				</div>
+
+				<header>
+					<p> Denoised "7" with varying levels of noise:  </p>
+				</header>
+				<div class="row">
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_0noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = 0</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma0.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_2noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = .2</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma2.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_4noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = .4</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma4.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_6noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = .6</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma6.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_8noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = .8</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma8.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_10noise.png" alt="" /></a>
+						<header><h>Noisy image with sigma = 1</h></header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/seven_denoised_sigma10.png" alt="" /></a>
+						<header><h>Denoised output</h></header>
+					</article>
+				</div>
+
 			</section>
+
+
 		</div>
 
 
@@ -1317,7 +1499,8 @@
 		<section id="features" class="container special">
 			<header>
 				<h2>B: 2.1. Adding Time Conditioning to UNet</h2>
-				<p> I then added time conditioning to the UNet so it can generate numbers from pure noise. </p>
+				<p> To create a diffusion mode, I added two FCBlocks (fully-connected blocks) that take in a time t variable to the architecture. This adds time conditioning to the UNet so it can be trained to iteratively denoise images
+					instead of just denoising the image in one step. Like part A, this iterative denoising allows us to randomly generate an image from pure noise. </p>
 			</header>
 
 			<div class="row">
@@ -1334,14 +1517,28 @@
 		<section id="features" class="container special">
 			<header>
 				<h2>B: 2.2. Training the UNet</h2>
+				<p> I trained this UNet to iterativel denoise by picking images from the training set, picking a random t value, and then trained the denoiser to predict the noise at time t.
+					This UNet was trained for 20 epochs.
+				</p>
 			</header>
 
 			<div class="row">
 				<article class="col-12 col-12-mobile special">
-					<a href="#" class="image featured"><img src="media/training_loss_ddpm.png" alt="" /></a>
+					<a href="#" class="image featured"><img src="media/time_conditioned_loss.png" alt="" /></a>
 					<header>
 						<h3><a href="#"> Training Loss </a></h3>
 					</header>
+				</article>
+			</div>
+
+			<header>
+				<h2>B: 2.3. Sampling from the UNet</h2>
+				<p> After this iterative denoiser is trained, I generated images of hand-written numbers from pure noise. </p>
+				<p> Here are the results after 5 and 20 epochs of training (respectively labelled 4 and 19 epochs due to 0-indexing). </p>
+			</header>
+			<div class="row">
+				<article class="col-20 col-12-mobile special">
+					<a href="#" class="image featured"><img src="media/nums_generated.png" alt="" /></a>
 				</article>
 			</div>
 		</section>
@@ -1349,13 +1546,22 @@
 		<section id="features" class="container special">
 			<header>
 				<h2>B: 2.4. Adding Class Conditioning to UNet</h2>
-				<p> I then added class conditioning to the UNet so it can generate specific numbers. </p>
+				<p> In order to be able to guide the UNet to generate specific numbers and to get better results, I added class conditioning to the UNet.
+					This just involves adding two more FCBlocks to the UNet, but with the input being c, a one-hot encoded vector of a digit (0-9). When training, however, 
+					c was set to 0 at a rate of .1 so the model can still generate numbers without a class being specified. </p>
 			</header>
+			<article class="col-12 col-12-mobile special">
+				<a href="#" class="image featured"><img src="media/class_conditioning_loss.png" alt="" /></a>
+				<header>
+					<h3><a href="#"> Training Loss </a></h3>
+				</header>
+			</article>
 		</section>
 
 		<section id="features" class="container special">
 			<header>
 				<h2>B: 2.5. Sampling from the Class-Conditioned UNet</h2>
+				<p> I sampled 4 instances of the 10 digits after 5 epochs and 20 epochs of training: </p>
 			</header>
 
 			<div class="row">
@@ -1365,6 +1571,9 @@
 						<h3><a href="#"> Generated Nums after Epoch 5 </a></h3>
 					</header>
 				</article>
+			</div>
+			<br> <br>
+			<div class="row">
 				<article class="col-12 col-12-mobile special">
 					<a href="#" class="image featured"><img src="media/class_cond_epoch20.png" alt="" /></a>
 					<header>
