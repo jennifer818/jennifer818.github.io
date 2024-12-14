@@ -55,7 +55,7 @@
 						<h2>Lightfield Camera</h2>
 						<p>
 							The first project explores how we can use images of an object taken over a regularly spaced grid 
-							can be used to refocus the object at different depths and mimic the object being taken a picture of at 
+							can be used to refocus the object at different depths and mimic the object being photographed
 							using a camera of different apertures. 
 						</p>
 					</header>
@@ -100,10 +100,11 @@
 							<p> I use images from the Stanford Light Field Archive. There are 289 images of a chessboard and 289 images 
 								of an amethyst that form a "grid" of the same object at slightly different locations. (x, y) refers to an 
 								image relative to their position in the 17x17 grid. To refocus an image, I shift each image by 
-								c * (x - center_x) and -1 * c * (y - center_y). C represents the depth, so as C changes, the depth and therefore 
+								c * (x - center_x) and -1 * c * (y - center_y). c represents the depth, so as c changes, the depth and therefore 
 								the focus of the image changes. center_x and center_y are the centers of the image grid. Because both grids are 17x17,
-								the centers are (8, 8). 
+								the center images are both (8, 8). 
 							</p>
+							<p> As c increases, the focus of the image shifts downwards. </p>
 						</header>
 
 						<div class="row">
@@ -129,18 +130,18 @@
 					<section id="features" class="container special">
 						<header>
 							<h2>Aperture Adjustment</h2>
-							<p> We can also mimic the object being taken with different aperatures by applying the same formula as above, but skipping 
+							<p> We can also mimic the object being taken with different apertures by applying the same formula as above, but skipping 
 								images that are more than aperature_size further from the center image. As the aperature increases, less images are skipped 
-								used and the image becomes more blurry. However, the focus of the image remains the same as 
+								 and the image becomes more blurry. However, the focus of the image remains the same as 
 								aperture changes. For both images, I used a c of 1.5.
 							</p>
 						</header>
 						<div class="row">
-							<article class="col-4 col-12-mobile special">
+							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/aperture_chess.gif" alt="" /></a>
 								<h>aperture_size from 0 to 10 with stepsize 1</h>
 							</article>
-							<article class="col-4 col-12-mobile special">
+							<article class="col-6 col-12-mobile special">
 								<a href="#" class="image featured"><img src="media/aperture_crystal.gif" alt="" /></a>
 								<h>aperture_size from 0 to 10 with stepsize 1</h>
 							</article>
@@ -153,7 +154,7 @@
 					<section id="features" class="container special">
 						<header>
 							<h2>Lightfield Camera Summary </h2>
-							<p> Overall, it was really cool to see how effects of a camera could be mimiced by translation. I did not know the idea 
+							<p> Overall, it was really cool to see how effects of a camera could be mimicked by translation. I did not know the idea 
 								that objects closer to the camera moving less than objects further from the camera when the camera moves could be used 
 								to refocus images and change apertures. 
 							</p>
@@ -168,7 +169,7 @@
 						<header>
 							<h2>Gradient Domain Fusion </h2>
 							<p>
-								For this project, I use Poisson Blending and Mixed Gradients to blend an object into a background image seemlessly. It matches the gradients (differences between
+								For this project, I use Poisson Blending and Mixed Gradients to blend an object into a background image seemlessly. Poisson blending matches the gradients (differences between
 								 neighboring pixels) of the source object inside a mask while ensuring smooth transitions at the mask boundary using the target image's pixel values.  
 							</p>
 						</header>	
@@ -181,7 +182,7 @@
 						<header>
 							<h2>Toy Problem </h2>
 							<p> Before implementing Poisson blending, I first attempt to reconstruct a toy image using a similar algorithm. Essentially, I create the 
-								sparse matrix A such that using least squares to minimize ||Av - b||^2 allows us to minimize (v(x+1,y)-v(x,y) - (s(x+1,y)-s(x,y)))^2,
+								sparse matrix A such that using least squares to minimize ||Av - s||^2 allows us to minimize (v(x+1,y)-v(x,y) - (s(x+1,y)-s(x,y)))^2,
 								minimize (v(x,y+1)-v(x,y) - (s(x,y+1)-s(x,y)))^2, and minimize (v(0,0)-s(0,0))^2. 
 							</p>
 							<p> Note: v is the flattened reconstructed image and s is the flattened original toy image. </p>
@@ -224,8 +225,12 @@
 						<header>
 							<p> The left part of the equation tries to minimze the gradients between the source image inside the mask and v. The right part 
 								of the equation sets v_j to t if v_j is outside the mask. </p>
-							<p> For pixels inside the mask: (degree(i)*v_i - sum(v_j for j in neighbors in mask)) = sum((s_i - s_j)) + sum(t_j for neighbors outside mask)
-								For pixels outside mask: v_i = t_i, means A[i,i] = 1 and b[i] = t_i</p>
+							<p> Similar to the toy problem, I create a sparse matrix A by looping through s. If the pixel in 
+								s falls in the mask, I loop through the four neighboring pixels, and if the neighboring pixels fall outside the mask, 
+								I set the corresponding values in b to include the pixel values from the target image at those positions. If the neighboring pixels are inside the mask, I update 
+								A to relate the current pixel and its neighbors. This ensures that gradients within the mask match the source image, while gradients at the 
+								boundary smoothly transition into the target image.
+							</p>
 						</header>
 
 						<div class="row">
