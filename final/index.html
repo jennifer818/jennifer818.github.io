@@ -1,0 +1,525 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Final Projects</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo">Final Projects</a></h1>
+								<hr/>
+								<p>Lightfield Camera and Gradient Domain Fusion</p>
+							</header>
+							<footer>
+							</footer>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li>
+									<a href="#">Other Projects</a>
+									<ul>
+										<li><a href="../1/index.html">Project 1</a></li>
+										<li><a href="../2/no-sidebar.html">Project 2</a></li>
+										<li><a href="../3/index.html">Project 3</a></li>
+										<li><a href="../4/index.html">Project 4</a></li>
+										<li><a href="../5/index.html">Project 5</a></li>
+									</ul>
+								</li>
+								<li><a href="../index.html">Full Portfolio</a></li>
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Banner -->
+				<section id="banner">
+					<header>
+						<h2>Lightfield Camera</h2>
+						<p>
+							The first project explores how we can use images of an object taken over a regularly spaced grid 
+							can be used to refocus the object at different depths and mimic the object being taken a picture of at 
+							using a camera of different apertures. 
+						</p>
+					</header>
+				</section>
+
+			<!-- Main -->
+				<div class="wrapper style2">
+
+					<article id="main" class="container special">
+						<!-- <a href="#" class="image featured"><img src="media/morph_me_chris_video_linear_warp.gif" alt="" /></a> -->
+						<!-- <a href="#" class="image featured"><img src="media/da_vinci.jpg" alt="" /></a> -->
+						<!-- <header>
+							<h2><a href="#">Sed massa imperdiet magnis</a></h2>
+							<p>
+								Sociis aenean eu aenean mollis mollis facilisis primis ornare penatibus aenean. Cursus ac enim
+								pulvinar curabitur morbi convallis. Lectus malesuada sed fermentum dolore amet.
+							</p>
+						</header>
+						<p>
+							Commodo id natoque malesuada sollicitudin elit suscipit. Curae suspendisse mauris posuere accumsan massa
+							posuere lacus convallis tellus interdum. Amet nullam fringilla nibh nulla convallis ut venenatis purus
+							sit arcu sociis. Nunc fermentum adipiscing tempor cursus nascetur adipiscing adipiscing. Primis aliquam
+							mus lacinia lobortis phasellus suscipit. Fermentum lobortis non tristique ante proin sociis accumsan
+							lobortis. Auctor etiam porttitor phasellus tempus cubilia ultrices tempor sagittis. Nisl fermentum
+							consequat integer interdum integer purus sapien. Nibh eleifend nulla nascetur pharetra commodo mi augue
+							interdum tellus. Ornare cursus augue feugiat sodales velit lorem. Semper elementum ullamcorper lacinia
+							natoque aenean scelerisque.
+						</p> -->
+						<!-- <footer>
+							<a href="#" class="button">Continue Reading</a>
+						</footer> -->
+					</article>
+
+				</div>
+
+			<!-- Features -->
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Depth Refocusing</h2>
+							<p> I use images from the Stanford Light Field Archive. There are 289 images of a chessboard and 289 images 
+								of an amethyst that form a "grid" of the same object at slightly different locations. (x, y) refers to an 
+								image relative to their position in the 17x17 grid. To refocus an image, I shift each image by 
+								c * (x - center_x) and -1 * c * (y - center_y). C represents the depth, so as C changes, the depth and therefore 
+								the focus of the image changes. center_x and center_y are the centers of the image grid. Because both grids are 17x17,
+								the centers are (8, 8). 
+							</p>
+						</header>
+
+						<div class="row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/refocused_chess.gif" alt="" /></a>
+								<header>
+									<h>c from 0 to 3 with step size .2 </h>
+								</header>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/refocused_crystal.gif" alt="" /></a>
+								<header>
+									<h>c from 0 to 3 with step size .2 </h>
+								</header>
+						</article>
+
+					</section>
+
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Aperture Adjustment</h2>
+							<p> We can also mimic the object being taken with different aperatures by applying the same formula as above, but skipping 
+								images that are more than aperature_size further from the center image. As the aperature increases, less images are skipped 
+								used and the image becomes more blurry. However, the focus of the image remains the same as 
+								aperture changes. For both images, I used a c of 1.5.
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/aperture_chess.gif" alt="" /></a>
+								<h>aperture_size from 0 to 10 with stepsize 1</h>
+							</article>
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/aperture_crystal.gif" alt="" /></a>
+								<h>aperture_size from 0 to 10 with stepsize 1</h>
+							</article>
+						</div>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Lightfield Camera Summary </h2>
+							<p> Overall, it was really cool to see how effects of a camera could be mimiced by translation. I did not know the idea 
+								that objects closer to the camera moving less than objects further from the camera when the camera moves could be used 
+								to refocus images and change apertures. 
+							</p>
+						</header>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						
+						<header>
+							<h2>Gradient Domain Fusion </h2>
+							<p>
+								For this project, I use Poisson Blending and Mixed Gradients to blend an object into a background image seemlessly. It matches the gradients (differences between
+								 neighboring pixels) of the source object inside a mask while ensuring smooth transitions at the mask boundary using the target image's pixel values.  
+							</p>
+						</header>	
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+
+					<section id="features" class="container special">
+						<header>
+							<h2>Toy Problem </h2>
+							<p> Before implementing Poisson blending, I first attempt to reconstruct a toy image using a similar algorithm. Essentially, I create the 
+								sparse matrix A such that using least squares to minimize ||Av - b||^2 allows us to minimize (v(x+1,y)-v(x,y) - (s(x+1,y)-s(x,y)))^2,
+								minimize (v(x,y+1)-v(x,y) - (s(x,y+1)-s(x,y)))^2, and minimize (v(0,0)-s(0,0))^2. 
+							</p>
+							<p> Note: v is the flattened reconstructed image and s is the flattened original toy image. </p>
+
+						</header>
+						<div class = "row">
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/toy.png" alt="" /></a>
+								<header>
+									<p> original toy image </p>
+								</header>
+								<br>
+							</article>
+							<article class="col-6 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/reconstructed_toy.png" alt="" /></a>
+								<header>
+									<p> reconstructed toy image.</p> 
+									<p> euclidean distance to original: 5.7e-8  </p>
+								</header>
+								<br>
+							</article>
+						</div>
+					</section>
+				</div>
+
+				<div class="wrapper style1">
+					<section id="features" class="container special">
+						<header>
+							<h2>Poisson Blending</h2>
+							<p> Poisson Blending essentially just tries to minimize this equation:
+							</p>
+						</header>
+						<div class="row">
+							<article class="col-12 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/poisson_eq.png" alt="" /></a>
+								<p> v is the resulting image, s is the flattened source image, and t is the flattened target image that we are blending s into.</p>
+								<p> S is pixels within the mask and N_i are the four pixels adjacent to i </p>
+							</article>
+						</div>
+						<header>
+							<p> The left part of the equation tries to minimze the gradients between the source image inside the mask and v. The right part 
+								of the equation sets v_j to t if v_j is outside the mask. </p>
+							<p> For pixels inside the mask: (degree(i)*v_i - sum(v_j for j in neighbors in mask)) = sum((s_i - s_j)) + sum(t_j for neighbors outside mask)
+								For pixels outside mask: v_i = t_i, means A[i,i] = 1 and b[i] = t_i</p>
+						</header>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/penguin.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Penguin </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/penguin_mask.png" alt="" /></a>
+								<header>
+									<h3><a href="#"> Penguin Mask </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/snow.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Snowy Hill </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-12 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/penguin_on_snow.png" alt="" /></a>
+								<header>
+									<h3><a href="#"> Penguin on Snowy Hill </a></h3>
+									<p></p>
+								</header>
+							</article>
+						</div>
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/aang.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Aang </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/aang_mask.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Aang Mask </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mountain.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Mountain </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-12 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/aang_poisson.png" alt="" /></a>
+								<header>
+									<h3><a href="#"> Aang Gliding Down from Mountain </a></h3>
+									<p></p>
+								</header>
+							</article>
+						</div>
+
+
+
+						<div class="row">
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mariah.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Mariah </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mariah_mask.jpg" alt="" /></a>
+								<header>
+									<h3><a href="#"> Mariah Mask </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-4 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/pool.heic" alt="" /></a>
+								<header>
+									<h3><a href="#"> Pool </a></h3>
+									<p></p>
+								</header>
+							</article>
+
+							<article class="col-12 col-12-mobile special">
+								<a href="#" class="image featured"><img src="media/mariah_poisson.png" alt="" /></a>
+								<header>
+									<h3><a href="#"> Mariah Melting into Pool </a></h3>
+									<p></p>
+								</header>
+							</article>
+						</div>
+					</section>
+				</div>
+
+			</section>
+		
+
+		<div class="wrapper style1">
+
+			<section id="features" class="container special">
+				<header>
+					<h2>Mixed Gradients </h2>
+					<p> I also implement Mixed Gradients, which is the same as Poisson Blending, but using the gradient in source or target with the larger magnitude as the guide, rather than the source gradient.
+					</p>
+				</header>
+
+				<div class="row">
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/penguin.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Penguin </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/penguin_mask.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Penguin Mask </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/snow.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Snowy Hill </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/penguin_on_snow.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Poisson </a></h3>
+							<p></p>
+						</header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/penguin_mixed.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mixed Gradient </a></h3>
+							<p></p>
+						</header>
+					</article>
+				</div>
+
+				<div class="row">
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/aang.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Aang </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/aang_mask.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Aang Mask </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mountain.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mountain </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/aang_poisson.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Poisson </a></h3>
+							<p></p>
+						</header>
+					</article>
+					<article class="col-6 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/aang_mixed.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mixed Gradients </a></h3>
+							<p></p>
+						</header>
+					</article>
+				</div>
+
+
+
+				<div class="row">
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mariah.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mariah </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mariah_mask.jpg" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mariah Mask </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-4 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/pool.heic" alt="" /></a>
+						<header>
+							<h3><a href="#"> Pool </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mariah_poisson.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Poisson </a></h3>
+							<p></p>
+						</header>
+					</article>
+
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mariah_mixed.png" alt="" /></a>
+						<header>
+							<h3><a href="#"> Mixed Gradients </a></h3>
+							<p></p>
+						</header>
+					</article>
+				</div>
+			</section>
+		</div>
+
+		
+
+						<!-- <hr />
+						<div class="row">
+							<div class="col-12"> -->
+
+								<!-- Contact -->
+									<!-- <section class="contact">
+										<header>
+											<h3>Nisl turpis nascetur interdum?</h3>
+										</header>
+										<p>Urna nisl non quis interdum mus ornare ridiculus egestas ridiculus lobortis vivamus tempor aliquet.</p>
+										<ul class="icons">
+											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
+											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+											<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+										</ul>
+									</section> -->
+
+								<!-- Copyright -->
+									<div class="copyright">
+										<ul class="menu">
+											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							<!-- </div>
+
+						</div> -->
+					</div>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
