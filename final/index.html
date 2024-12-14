@@ -342,8 +342,21 @@
 			<section id="features" class="container special">
 				<header>
 					<h2>Mixed Gradients </h2>
-					<p> I also implement Mixed Gradients, which is the same as Poisson Blending, but using the gradient in source or target with the larger magnitude as the guide, rather than the source gradient.
+					<p> I also implement Mixed Gradients, which is the same as Poisson Blending, but chooses, for each pixel pair, the gradient with the larger magnitude between the source and the target:
 					</p>
+				</header>
+
+				<div class="row">
+					<article class="col-12 col-12-mobile special">
+						<a href="#" class="image featured"><img src="media/mixed_eq.png" alt="" /></a>
+						<header>
+							<p></p>
+						</header>
+					</article>
+				</div>
+				<header>
+					Overall, the images blended with mixed gradients are a little more seemless, as the edges between the source object amd and the target is a little less fuzzy, but the source image is 
+					more transparent which is especially noticeable in the image with Aang flying down the mountain.  
 				</header>
 
 				<div class="row">
@@ -455,7 +468,7 @@
 						</header>
 					</article>
 
-					<article class="col-12 col-12-mobile special">
+					<article class="col-6 col-12-mobile special">
 						<a href="#" class="image featured"><img src="media/mariah_poisson.png" alt="" /></a>
 						<header>
 							<h3><a href="#"> Poisson </a></h3>
@@ -463,7 +476,7 @@
 						</header>
 					</article>
 
-					<article class="col-12 col-12-mobile special">
+					<article class="col-6 col-12-mobile special">
 						<a href="#" class="image featured"><img src="media/mariah_mixed.png" alt="" /></a>
 						<header>
 							<h3><a href="#"> Mixed Gradients </a></h3>
